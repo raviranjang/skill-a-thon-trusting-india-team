@@ -1,0 +1,48 @@
+targets:
+  $default:
+    builders:
+      swagger_dart_code_generator:
+        options:
+          input_folder: 'lib/swagger_src/'
+          output_folder: "lib/swagger_models_apis/"
+          separate_models: true
+          include_if_null: false
+          response_override_value_map:
+            # - url: '/job/search'
+            #   method: get
+            #   overriden_value: 'List<Object>'
+          # overriden_models: 
+          #   - 'AnyObject'
+
+# Automated JSON fetching
+      # swagger_dart_code_generator:
+      #   options:
+      #     # custom configuration options!
+      #     input_urls:
+      #       # `${process.env.CLOUD_WALLET_URL}/api/swagger`,
+      #       - "https://cloud-wallet-api.prod.affinity-project.org/api/swagger"
+      #       # - "https://raw.githubusercontent.com/epam-cross-platform-lab/swagger-dart-code-generator/master/example/input_folder/pet_service_yaml.yaml"
+      #     input_folder: 'lib/swagger_json/cloud-wallet-api/'
+      #     output_folder: "lib/swagger_models_apis/cloud-wallet/"
+      #     seaparate_models: true
+      # swagger_dart_code_generator:
+      #   options:
+      #     # custom configuration options!
+      #     input_urls:
+      #       # `${process.env.VERIFIER_URL}/api/swagger`,
+      #       - "https://affinity-verifier.prod.affinity-project.org/api/swagger"
+      #     input_folder: 'lib/swagger_json/verifier-api/'
+      #     output_folder: "lib/swagger_models_apis/verifier/"
+      #     seaparate_models: true
+
+# generateApi({
+#   name: 'cloud-wallet.api.ts',
+#   output: path.resolve(process.cwd(), './src/services/cloud-wallet'),
+#   url: `${process.env.CLOUD_WALLET_URL}/api/swagger`,
+# }).catch(console.error)
+
+# generateApi({
+#   name: 'verifier.api.ts',
+#   output: path.resolve(process.cwd(), './src/services/verifier'),
+#   url: `${process.env.VERIFIER_URL}/api/swagger`,
+# }).catch(console.error)

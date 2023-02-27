@@ -1,0 +1,177 @@
+// import 'dart:convert';
+
+// import 'package:chopper/chopper.dart';
+// import 'package:dsep_reference_flutter/animations/slide-bottom.animation.dart';
+// import 'package:dsep_reference_flutter/global_constants.dart';
+// import 'package:dsep_reference_flutter/modules/courses/widgets/search-courses.widget.dart';
+// import 'package:dsep_reference_flutter/modules/courses/widgets/courses-filter.widget.dart';
+// import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.swagger.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_svg/svg.dart';
+// import 'package:provider/provider.dart';
+
+// class CourseListWidget extends StatefulWidget {
+//   const CourseListWidget({super.key});
+
+//   @override
+//   State<CourseListWidget> createState() => _CourseListWidgetState();
+// }
+
+// class _CourseListWidgetState extends State<CourseListWidget> {
+//   bool _pageInitialized = false;
+//   // List<CourseSummary>? _courses;
+//   // List<CourseDetails>? _courses = [];
+//   List<CourseDetails>? _courses = [
+//     CourseDetails(
+//       courseUrl: '',
+//       price: '499',
+//       startDate: '-',
+//       endDate: '-',
+//       rating: '4.5',
+//       credits: '2',
+//       instructors: "Jay Amolkar",
+//       offeringInstitue: 'Coursera',
+//       enrollmentEndDate: '-',
+//     ),
+//   ];
+
+//   @override
+//   void didChangeDependencies() {
+//     if (!_pageInitialized) {
+//       // SearchCourseRequest? _searchCourseBody = SearchCourseRequest(
+//       //   // category: '',
+//       //   // provider: '',
+//       //   searchTitle: 'UI',
+//       // );
+//       // Provider.of<JobSeekerApi>(
+//       //   context,
+//       //   listen: false,
+//       // )
+//       //     .courseSearchPost(body: _searchCourseBody)
+//       //     .then((Response<CourseResults> response) {
+//       //   if (response.isSuccessful) {
+//       //     CourseResults? searchCoursesResponse = response.body;
+//       //     if (searchCoursesResponse != null) {
+//       //       setState(() {
+//       //         _courses = [];
+//       //         if (searchCoursesResponse.courses != null) {
+//       //           for (Object course in searchCoursesResponse.courses!) {
+//       //             _courses!.add(course as CourseDetails);
+//       //           }
+//       //         }
+//       //       });
+//       //     }
+//       //   }
+//       // });
+//       _pageInitialized = true;
+//     }
+//     super.didChangeDependencies();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: <Widget>[
+//         Container(
+//           child: Stack(
+//             alignment: Alignment.topCenter,
+//             children: <Widget>[
+//               Container(
+//                 height: 40,
+//                 color: GlobalConstants.backgroundColor.withOpacity(0.1),
+//               ),
+//               Container(
+//                 height: 80,
+//                 padding: const EdgeInsets.symmetric(
+//                   horizontal: 30,
+//                   vertical: 10,
+//                 ),
+//                 child: GestureDetector(
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                       border: Border.all(
+//                         color: Colors.black,
+//                       ),
+//                       borderRadius: const BorderRadius.all(
+//                         Radius.circular(
+//                           20,
+//                         ),
+//                       ),
+//                       color: Colors.white,
+//                     ),
+//                     child: Padding(
+//                       padding: const EdgeInsets.symmetric(
+//                         horizontal: 10,
+//                       ),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.start,
+//                         crossAxisAlignment: CrossAxisAlignment.center,
+//                         children: const <Widget>[
+//                           Icon(
+//                             Icons.search,
+//                             color: Colors.black45,
+//                           ),
+//                           SizedBox(
+//                             width: 6,
+//                           ),
+//                           Text(
+//                             "Search by course title, provider etc...",
+//                             style: TextStyle(
+//                               color: Colors.black45,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                   onTap: () {
+//                     Navigator.of(context).push(
+//                       SlideBottomRoute(
+//                         page: const SearchCoursesWidget(),
+//                       ),
+//                     );
+//                   },
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Expanded(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             crossAxisAlignment: CrossAxisAlignment.stretch,
+//             children: <Widget>[
+//               Container(
+//                 padding: const EdgeInsets.symmetric(
+//                   horizontal: 15,
+//                   vertical: 6,
+//                 ),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: <Widget>[
+//                     const Text(
+//                       "20 courses found",
+//                     ),
+//                     GestureDetector(
+//                       child: SvgPicture.asset('assets/svgs/ic_filter.svg'),
+//                       onTap: () {
+//                         Navigator.of(context).push(
+//                           SlideBottomRoute(
+//                             page: const CoursesFilterWidget(),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

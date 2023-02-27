@@ -1,0 +1,3566 @@
+{
+    "components": {
+        "examples": {},
+        "headers": {},
+        "parameters": {},
+        "requestBodies": {},
+        "responses": {},
+        "schemas": {
+            "ErrorObject": {
+                "properties": {
+                    "serviceName": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "fields": {
+                        "properties": {},
+                        "additionalProperties": {},
+                        "type": "object"
+                    },
+                    "httpStatusCode": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "context": {},
+                    "originalError": {},
+                    "inputParams": {},
+                    "endpointUrl": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "serviceName",
+                    "code",
+                    "httpStatusCode",
+                    "message",
+                    "inputParams",
+                    "endpointUrl"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "DidAuthResponseTokenOutput": {
+                "properties": {
+                    "didAuthResponseToken": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "didAuthResponseToken"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "DidAuthResponseTokenInput": {
+                "properties": {
+                    "didAuthRequestToken": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "didAuthRequestToken"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "AnyData": {},
+            "W3cCredentialStatus": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "revocationListIndex": {
+                        "type": "string"
+                    },
+                    "revocationListCredential": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "type",
+                    "revocationListIndex",
+                    "revocationListCredential"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "UnsignedW3cCredential": {
+                "properties": {
+                    "@context": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "holder": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AnyData"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "credentialSubject": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "issuanceDate": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "credentialStatus": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/W3cCredentialStatus"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "credentialSchema": {
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "id"
+                        ],
+                        "type": "object"
+                    },
+                    "proof": {
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type"
+                        ],
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "@context",
+                    "id",
+                    "type",
+                    "credentialSubject"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "StoredW3cCredential": {
+                "$ref": "#/components/schemas/UnsignedW3cCredential"
+            },
+            "StoredOpenAttestationDocumentSignature": {
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "targetHash": {
+                        "type": "string"
+                    },
+                    "proof": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "merkleRoot": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "StoredOpenAttestationDocument": {
+                "properties": {
+                    "version": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "signature": {
+                        "$ref": "#/components/schemas/StoredOpenAttestationDocumentSignature"
+                    }
+                },
+                "required": [
+                    "version",
+                    "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "StoredCredential": {
+                "anyOf": [
+                    {
+                        "$ref": "#/components/schemas/StoredW3cCredential"
+                    },
+                    {
+                        "$ref": "#/components/schemas/StoredOpenAttestationDocument"
+                    }
+                ]
+            },
+            "GetCredentialsOutput": {
+                "items": {
+                    "$ref": "#/components/schemas/StoredCredential"
+                },
+                "type": "array"
+            },
+            "ClaimCredentialOutput": {
+                "properties": {
+                    "credentialIds": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "credentialIds"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ShareCredentialOutput": {
+                "properties": {
+                    "qrCode": {
+                        "type": "string"
+                    },
+                    "sharingUrl": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "qrCode",
+                    "sharingUrl"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ValidateTTL": {
+                "type": "string",
+                "pattern": "^[0-9]+(m|h|d){0,1}$"
+            },
+            "ShareCredentialInput": {
+                "properties": {
+                    "ttl": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ValidateTTL"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "fieldsToShare": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SharePresentationOutput": {
+                "properties": {
+                    "qrCode": {
+                        "type": "string"
+                    },
+                    "sharingUrl": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "qrCode",
+                    "sharingUrl"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "AnyObject": {
+                "properties": {},
+                "additionalProperties": {},
+                "type": "object"
+            },
+            "W3cProof": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/AnyObject"
+                    },
+                    {
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type"
+                        ],
+                        "type": "object"
+                    }
+                ]
+            },
+            "W3cCredential": {
+                "properties": {
+                    "@context": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "holder": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "credentialSubject": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "credentialSchema": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "issuanceDate": {
+                        "type": "string"
+                    },
+                    "issuer": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "credentialStatus": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/W3cCredentialStatus"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "proof": {
+                        "$ref": "#/components/schemas/W3cProof"
+                    }
+                },
+                "required": [
+                    "@context",
+                    "id",
+                    "type",
+                    "holder",
+                    "credentialSubject",
+                    "issuanceDate",
+                    "issuer",
+                    "proof"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "W3cPresentation": {
+                "properties": {
+                    "@context": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "type": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "holder": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "verifiableCredential": {
+                        "items": {
+                            "$ref": "#/components/schemas/W3cCredential"
+                        },
+                        "type": "array"
+                    },
+                    "proof": {
+                        "$ref": "#/components/schemas/AnyData"
+                    }
+                },
+                "required": [
+                    "@context",
+                    "type",
+                    "holder",
+                    "verifiableCredential",
+                    "proof"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SharePresentationInput": {
+                "properties": {
+                    "ttl": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ValidateTTL"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "oneTimeUse": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "boolean",
+                                "enum": [
+                                    false
+                                ]
+                            }
+                        ]
+                    },
+                    "signedPresentation": {
+                        "$ref": "#/components/schemas/W3cPresentation"
+                    }
+                },
+                "required": [
+                    "signedPresentation"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SaveCredentialOutput": {
+                "properties": {
+                    "credentialIds": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "credentialIds"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SaveCredentialInput": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/StoredCredential"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/AnyObject"
+                                }
+                            ]
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignCredentialOutput": {
+                "properties": {
+                    "signedCredential": {
+                        "$ref": "#/components/schemas/W3cCredential"
+                    }
+                },
+                "required": [
+                    "signedCredential"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "KeyTypes": {
+                "type": "string",
+                "enum": [
+                    "rsa",
+                    "bbs",
+                    "ecdsa"
+                ]
+            },
+            "SignCredentialInput": {
+                "properties": {
+                    "unsignedCredential": {
+                        "$ref": "#/components/schemas/UnsignedW3cCredential"
+                    },
+                    "keyType": {
+                        "$ref": "#/components/schemas/KeyTypes"
+                    }
+                },
+                "required": [
+                    "unsignedCredential"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignPresentationOutput": {
+                "properties": {
+                    "signedPresentation": {
+                        "$ref": "#/components/schemas/W3cPresentation"
+                    }
+                },
+                "required": [
+                    "signedPresentation"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "UnsignedW3cPresentation": {
+                "properties": {
+                    "@context": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "type": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "holder": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "verifiableCredential": {
+                        "items": {
+                            "$ref": "#/components/schemas/W3cCredential"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "@context",
+                    "type",
+                    "holder",
+                    "verifiableCredential"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignPresentationInput": {
+                "properties": {
+                    "unsignedPresentation": {
+                        "$ref": "#/components/schemas/UnsignedW3cPresentation"
+                    },
+                    "challenge": {
+                        "type": "string"
+                    },
+                    "domain": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "unsignedPresentation",
+                    "challenge",
+                    "domain"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ApiCredentialRequirement": {
+                "properties": {
+                    "constraints": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "type": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "type"
+                ],
+                "type": "object"
+            },
+            "GenerateCredentialShareRequestTokenRequest": {
+                "properties": {
+                    "requirements": {
+                        "items": {
+                            "$ref": "#/components/schemas/ApiCredentialRequirement"
+                        },
+                        "type": "array"
+                    },
+                    "issuerDid": {
+                        "type": "string"
+                    },
+                    "audienceDid": {
+                        "type": "string"
+                    },
+                    "expiresAt": {
+                        "type": "string"
+                    },
+                    "nonce": {
+                        "type": "string"
+                    },
+                    "callbackUrl": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "requirements"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "CreateCredentialShareResponseTokenRequest": {
+                "properties": {
+                    "credentialShareRequestToken": {
+                        "type": "string"
+                    },
+                    "credentials": {
+                        "items": {
+                            "$ref": "#/components/schemas/W3cCredential"
+                        },
+                        "type": "array"
+                    },
+                    "expiresAt": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "credentialShareRequestToken",
+                    "credentials"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ReadEncryptedMessageOuput": {
+                "properties": {
+                    "message": {
+                        "$ref": "#/components/schemas/AnyData"
+                    }
+                },
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ReadEncryptedMessageInput": {
+                "properties": {
+                    "encryptedMessage": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "encryptedMessage"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "CreateEncryptedMessageOuput": {
+                "properties": {
+                    "encryptedMessage": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "encryptedMessage"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "CreateEncryptedMessageInput": {
+                "properties": {
+                    "did": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "$ref": "#/components/schemas/AnyData"
+                    }
+                },
+                "required": [
+                    "did",
+                    "message"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "UserInfoOutput": {
+                "properties": {
+                    "userCreateDate": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "LoginOutput": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "refreshToken",
+                    "did"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ValidatedUsername": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+            },
+            "ExistingPassword": {
+                "type": "string",
+                "minLength": 1
+            },
+            "LoginInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/ExistingPassword"
+                    }
+                },
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ArbitraryUsernameSignUpOutput": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "refreshToken",
+                    "did"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "EmailSignUpOutput": {
+                "type": "string"
+            },
+            "TelSignUpOutput": {
+                "type": "string"
+            },
+            "ValidatedPassword": {
+                "type": "string",
+                "minLength": 8,
+                "maxLength": 256,
+                "pattern": "^[\\S]+.*[\\S]+$"
+            },
+            "ApiDidMethod": {
+                "type": "string",
+                "enum": [
+                    "jolo",
+                    "elem",
+                    "polygon",
+                    "polygon:testnet"
+                ]
+            },
+            "SdkOptionsInput": {
+                "properties": {
+                    "didMethod": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ApiDidMethod"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "keyTypes": {
+                        "items": {
+                            "$ref": "#/components/schemas/KeyTypes"
+                        },
+                        "type": "array",
+                        "minItems": 1
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ApiMessageParameters": {
+                "properties": {
+                    "htmlMessage": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message"
+                ],
+                "type": "object"
+            },
+            "SignUpInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/ValidatedPassword"
+                    },
+                    "options": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SdkOptionsInput"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "messageParameters": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ApiMessageParameters"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ConfirmSignUpOutput": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "idToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "refreshToken",
+                    "idToken",
+                    "did"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ConfirmSignUpInput": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "confirmationCode": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "options": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SdkOptionsInput"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "token",
+                    "confirmationCode"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ForgotPasswordInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    }
+                },
+                "required": [
+                    "username"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ForgotPasswordConfirmInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    },
+                    "otp": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "newPassword": {
+                        "$ref": "#/components/schemas/ValidatedPassword"
+                    }
+                },
+                "required": [
+                    "username",
+                    "otp",
+                    "newPassword"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ChangeUsernameInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    }
+                },
+                "required": [
+                    "username"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ChangeUsernameConfirmInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    },
+                    "confirmationCode": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "username",
+                    "confirmationCode"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ChangePasswordInput": {
+                "properties": {
+                    "oldPassword": {
+                        "$ref": "#/components/schemas/ExistingPassword"
+                    },
+                    "newPassword": {
+                        "$ref": "#/components/schemas/ValidatedPassword"
+                    }
+                },
+                "required": [
+                    "oldPassword",
+                    "newPassword"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignInInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    },
+                    "messageParameters": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ApiMessageParameters"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "username"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignInWithTruecallerOutput": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "idToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "idToken",
+                    "refreshToken",
+                    "did"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ProfileTrueCaller": {
+                "properties": {
+                    "payload": {
+                        "type": "string"
+                    },
+                    "signature": {
+                        "type": "string"
+                    },
+                    "signatureAlgorithm": {
+                        "type": "string"
+                    },
+                    "avatarUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "companyName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "countryCode": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "facebookId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "isAmbassador": {
+                        "type": "boolean"
+                    },
+                    "isBusiness": {
+                        "type": "boolean"
+                    },
+                    "isVerified": {
+                        "type": "boolean"
+                    },
+                    "jobTitle": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+                    "requestNonce": {
+                        "type": "string"
+                    },
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "successful": {
+                        "type": "boolean"
+                    },
+                    "twitterId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "zipcode": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "payload",
+                    "signature",
+                    "signatureAlgorithm"
+                ],
+                "type": "object",
+                "additionalProperties": {}
+            },
+            "SignInWithTuecallerInput": {
+                "properties": {
+                    "token": {
+                        "$ref": "#/components/schemas/ProfileTrueCaller"
+                    },
+                    "options": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SdkOptionsInput"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ConfirmSignInOutput": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "idToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "refreshToken",
+                    "idToken",
+                    "did"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ConfirmSignInInput": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "confirmationCode": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "issueSignupCredential": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "options": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SdkOptionsInput"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "token",
+                    "confirmationCode"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "PasswordlessLoginInput": {
+                "properties": {
+                    "username": {
+                        "$ref": "#/components/schemas/ValidatedUsername"
+                    },
+                    "messageParameters": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ApiMessageParameters"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "username"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ConfirmPasswordlessLoginOutput": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "idToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "refreshToken",
+                    "idToken",
+                    "did"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ConfirmPasswordlessLoginInput": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "confirmationCode": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "token",
+                    "confirmationCode"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Pick_LoginOutput.Exclude_keyofLoginOutput.refreshToken__": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "did": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accessToken",
+                    "did"
+                ],
+                "type": "object",
+                "description": "From T, pick a set of properties whose keys are in the union K"
+            },
+            "LoginWithRefreshTokenInput": {
+                "properties": {
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "refreshToken"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignedJwtObject": {
+                "properties": {
+                    "header": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "signature": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "header",
+                    "payload"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignJwtOutput": {
+                "properties": {
+                    "jwtObject": {
+                        "$ref": "#/components/schemas/SignedJwtObject"
+                    },
+                    "jwt": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "jwtObject"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "UnsignedJwtObject": {
+                "properties": {
+                    "header": {
+                        "$ref": "#/components/schemas/AnyData"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/AnyData"
+                    }
+                },
+                "required": [
+                    "header",
+                    "payload"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "SignJwtInput": {
+                "properties": {
+                    "jwtObject": {
+                        "$ref": "#/components/schemas/UnsignedJwtObject"
+                    },
+                    "returnEncodedJwt": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "jwtObject"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "apiKey": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "API-KEY"
+            }
+        }
+    },
+    "info": {
+        "title": "cloud-wallet-api",
+        "version": "1.69.1",
+        "description": "Affinidi SSIaaS",
+        "license": {
+            "name": "ISC"
+        },
+        "contact": {
+            "name": "The Engineering Team",
+            "email": "nucleus.team@affinidi.com"
+        }
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/did-auth/create-did-auth-response": {
+            "post": {
+                "operationId": "CreateDidAuthResponse",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DidAuthResponseTokenOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create Response on initiated DID auth request.",
+                "tags": [
+                    "DidAuthentication"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DidAuthResponseTokenInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/credentials": {
+            "get": {
+                "operationId": "GetCredentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCredentialsOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get the list of all user's credentials.\nFollowing API endpoint is used in case if the user wants to see all the credentials that are stored in the cloud wallet.",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "credentialShareRequestToken",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "post": {
+                "operationId": "StoreCredentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SaveCredentialOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Save credentials in cloud wallet.\n\nExpected `data` to be an array of VCs to save.\nVC type can be W3C credential or Open Attestation Document\n\n```\nOpenAttestationDocument {\n  version: string\n  data: FreeFormObject <- must contain a field `id`\n  signature: {\n    type: string\n    targetHash: string\n    proof: FreeFormObject[]\n    merkleRoot: string\n  }\n}\n```\n\n```\nW3cCredential {\n  '@context': FreeFormObject\n  id: string\n  type: string[]\n  holder: FreeFormObject\n  credentialSubject: FreeFormObject\n  issuanceDate: string\n  issuer: string\n  expirationDate?: string\n  proof: {\n    type?: string\n    created?: string\n    verificationMethod: string\n    proofPurpose: string\n    jws: string\n  }\n}\n```",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SaveCredentialInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/credentials/claim": {
+            "get": {
+                "operationId": "ClaimCredentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClaimCredentialOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Claim a credentials from \"credentialOfferRequestToken\" callback URL.\nClaim and store credentials in a wallet. return a list of credentials ids",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "credentialOfferRequestToken",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/wallet/credentials/{id}": {
+            "get": {
+                "operationId": "GetCredential",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCredentialOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get user's credential by credentialId. Use this API endpoint to fetch the details of any one particular credential.\nSince credentialId is the unique field, you have to pass that as url param.",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "DeleteCredential",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Delete user's credential by credentialId.",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/wallet/credentials/{id}/share": {
+            "post": {
+                "operationId": "ShareCredential",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShareCredentialOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Share user's credential by credentialId. In case the users wants to share their credential, they can do it by using this API endpoint. The API returns two strings namely qrCode and sharingUrl. You can use these string to share the credentials. You will have to pass credentialId in the url.\n\nParams:\n\n  `ttl` (optional) - string, in hours, that defines credential's\nexpiration time after which it should be removed.\n\nFor example: 96\n\nBy default TTL is `96 hours`. If `0` is passed, shared credential\nwill be expired in 100 years.\n\n\n  `fieldsToShare` (optional) - array of strings that specify paths from credentialSubject to the end values that should be shared,\n**works only when VC signed with BBS+ key**\n\nExample:\n\n{\n\n    ... context, holder, proof, etc\n\n    credentialSubject: {\n\n        data: {\n\n            Name: 'Jhon Doe',\n\n            Age: 99,\n\n            Address: {\n\n                Street: 'Defined',\n\n                Home: 17\n\n           }\n\n       }\n\n    }\n\n}\n\nTo select only name and street you should pass ['data/Name', 'data/Address/Street']",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ShareCredentialInput"
+                            },
+                            "examples": {
+                                "Example 1": {
+                                    "value": {
+                                        "ttl": "6"
+                                    }
+                                },
+                                "Example 2": {
+                                    "value": {
+                                        "ttl": "6",
+                                        "fieldsToShare": [
+                                            "data/Name"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/credentials/share": {
+            "post": {
+                "operationId": "SharePresentation",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SharePresentationOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Presentation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Share user's credentials as a verifiable presentation.\n\nParams:\n\n  `signedPresentation` - W3C presentation\n\n  `oneTimeUse` (optional) - boolean, flag to specify if shareable URL\nshould be deleted after first sharing (to share QR only once).\n`false` by default.\n\n  `ttl` (optional) - string, in specified time, that defines presentation's\nexpiration time after which it should be removed.\n\nFor example: 5m, 1h, 2w\n\nBy default TTL is `96 hours` (`96h`). If `0` is passed, shared presentation\nwill be expired in 100 years.\n\nReturns raw QR and its image in base64 format.",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SharePresentationInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/sign-credential": {
+            "post": {
+                "operationId": "SignCredential",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignCredentialOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Credential could not be signed with keyType {{keyType}}: {{message}}",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "You will need to sign your VC to add some value to it. Without the signature, credential would be worthless.\nNote: In the build unsigned VC API, you will receive the response in unsignedVC object. You will have to change the key to unsignedCredential while using the sign credenrial API. Rest all the details are same.",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignCredentialInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/sign-presentation": {
+            "post": {
+                "operationId": "SignPresentation",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignPresentationOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Sign verifiable presentation. Verifiable presentation or VP can be used for sharing credentials with the verifier, provided Verifier is asking some credentials via a VP request, then holder will pull all the VCs that match the request from the wallet, wrap them into a VP and sign the VP. Put your vs's into `verifiableCredential` array.\n\nA VP can be targeted to a specific verifier by using a Linked Data Proof\nthat includes a domain and challenge. This also helps prevent a verifier\nfrom reusing a VP as their own.\n\nParams:\n\n  `unsignedPresentation` of UnsignedW3cPresentation type\n\n  `domain` - can be any string or URI\n\n  `challenge` - should be a randomly generated string\n\nReturns signed verifiable presentation",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignPresentationInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/credential-share-token/generate-request-token": {
+            "post": {
+                "operationId": "GenerateCredentialShareRequestToken",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create JWT of credential share request. Verifier can use this API to generate a request token and ask the Holder for the credentials. The details of the required credentials can be passed as parameters.\n\nA VP can be targeted to a specific verifier by using a Linked Data Proof\nthat includes a domain and challenge. This also helps prevent a verifier\nfrom reusing a VP as their own.\n\nParams:\n\n  `credentialRequirements` - array of credential requirements with credential types\n\n  `issuerDid` (optional) - DID of the issuer\n\n  `audienceDid` (optional) - audience of generated token\n\n  `expiresAt` (optional) - expire date-time of generated token\n\n  `nonce` (optional) - nonce/jti of generated token\n\n  `callbackUrl` (optional)\n\nReturns JWT with credential share request",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GenerateCredentialShareRequestTokenRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/credential-share-token/create-response-token": {
+            "post": {
+                "operationId": "CreateCredentialShareResponseToken",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create JWT of credential share response. Once the Holder pulls the credentials according to the request token sent by the Verifier he should use this API to create a response token or Verifiable presentation (VP). Then the Verifier can verify those credential using Verify share response API.\n\nParams:\n\n  `credentialShareRequestToken` - JWT with the requested VCs\n\n  `credentials` - array of signed credentials\n\n  `expiresAt` (isoString) - (optional) expires of created token, 10 minutes by default\n\nExpected `credentials` to be an array of signed credentials. Can be W3C credential or Open Attestation Document\n\n```\nOpenAttestationDocument {\n  version: string\n  data: FreeFormObject <- must contain a field `id`\n  signature: {\n    type: string\n    targetHash: string\n    proof: FreeFormObject[]\n    merkleRoot: string\n  }\n}\n```\n\n```\nW3cCredential {\n  '@context': FreeFormObject\n  id: string\n  type: string[]\n  holder: FreeFormObject\n  credentialSubject: FreeFormObject\n  issuanceDate: string\n  issuer: string\n  expirationDate?: string\n  proof: {\n    type?: string\n    created?: string\n    verificationMethod: string\n    proofPurpose: string\n    jws: string\n  }\n}\n```\n\nReturns JWT with credential share response",
+                "tags": [
+                    "Wallet"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCredentialShareResponseTokenRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/messages/read-encrypted-message": {
+            "post": {
+                "operationId": "ReadEncryptedMessage",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReadEncryptedMessageOuput"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "message": "anyData"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Read encrypted message",
+                "tags": [
+                    "Messages"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReadEncryptedMessageInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/messages/create-encrypted-message": {
+            "post": {
+                "operationId": "CreateEncryptedMessage",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateEncryptedMessageOuput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create encrypted message",
+                "tags": [
+                    "Messages"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEncryptedMessageInput"
+                            },
+                            "example": {
+                                "did": "string",
+                                "message": "anyData"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/share/{hash}": {
+            "get": {
+                "operationId": "RetrieveSharedCredential",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "Example 1": {
+                                        "value": "unknown"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Shared credential not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Retrieve shared credential by hash. As a holder of a VC, you can generate a temporary share url using Share Credential API.\nThis is how a sharing url looks like:\n\n`sharingUrl: https://cloud-wallet-api.prod.affinity-project.org/api/v1/share/4d4f74ef86dcf7534192502d14391d6f976019ad8b4ee881d3ebf7159b01017b?key=aca306a7d4ddd459a805281afa9efc60da97bcc1fd73de9df70252f559d6bb`\n\nThis API is used to get the shared credential. All you have to do is copy the entire string after the share/ including the part after ?key= and paste it in place of the {hash}. You will receive a Verifiable Credential in the response.",
+                "tags": [
+                    "Share"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "hash",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "key",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/users/get-did": {
+            "get": {
+                "operationId": "GetDid",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Return DID of existing user.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": []
+            }
+        },
+        "/users/get-info": {
+            "get": {
+                "operationId": "GetInfo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserInfoOutput"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Return info of existing user.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": []
+            }
+        },
+        "/users/login": {
+            "post": {
+                "operationId": "Login",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incorrect username or password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Login an existing user into the wallet.\n\nAs an `username` **arbitrary username** OR **email** OR **phone number** can be used.\n\nNote: Phone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)\n\nValid username examples:\n- great_user\n- great_user@gmail.com\n- +1234567890",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/signup": {
+            "post": {
+                "operationId": "SignUp",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/ArbitraryUsernameSignUpOutput"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/EmailSignUpOutput"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/TelSignUpOutput"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User with the given username already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Signs up a new user.\n[Generate your API key and API Key Hash.](https://build.affinidi.com/register)\nUse the API Key Hash as the 'Api-Key' parameter in the header for api calls.\n\nAs an `username` **arbitrary username** OR **email** OR **phone number** can be used.\n\nNote: Phone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)\n\nReturns an object with a `token` for the **confirmSignUp** endpoint OR\nan object with an `accessToken`, `refreshToken` and `did` IF **arbitrary username** was provided.\n\nUse the `accessToken` received in the response of above API as the Authorization parameter in the header and use the did as holderDid attribute for further API calls.\n\n`refreshToken` can be used to login an existing user with refresh token authentication.\n\nNote: didMethod jolo is deprecated. Use elem as your didMethod in the payload.\n\nNote: If you use arbitrary username you won't be able to use Signup confirm, do the following steps to get `accessToken`: forgot password, change username and passwordless login APIs.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignUpInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/signup/confirm": {
+            "post": {
+                "operationId": "ConfirmSignUp",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfirmSignUpOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Confirmation code is invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Confirms sign up of a new user into the wallet. This API can be used for the functionality of account verification.\n\nReturns an object with `accessToken`, `refreshToken`, `idToken` and `did`\n\nNote: To use this API username should either be an email or a phone number.\nPhone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmSignUpInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "post": {
+                "operationId": "Logout",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Signs out user from all devices. It also invalidates all refresh tokens\nissued to a user. The user's current access and Id tokens remain valid\nuntil their expiry. Access and Id tokens expire one hour after they are\nissued.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": []
+            }
+        },
+        "/users/forgot-password": {
+            "post": {
+                "operationId": "ForgotPassword",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Username should be valid email or phone number",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Resets password for the user. This API is used in case the user does not remember his/hers password.\n\nNote: Username should be a valid email or phone number.\nPhone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/forgot-password/confirm": {
+            "post": {
+                "operationId": "ForgotPasswordConfirm",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Confirmation code is invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Resets password for the user. Once the forgot password functionality is initiated, you can use this API to reset password of the user.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordConfirmInput"
+                            },
+                            "example": {
+                                "username": "string",
+                                "otp": "string",
+                                "newPassword": "Eg%FXBz{U,xV)+*[Fm<],v7dzx(y?[mqhgJ!$9>a14rP>9Fnu!*F/re;cG<Zwr2[y0+V9pDnUK\\H?QQ@b&rJ=@1s3!g0s0j1Oy^-g}H3"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/change-username": {
+            "post": {
+                "operationId": "ChangeUsername",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User with the given username already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Adds an email or a phone number, or changes the existing one.\n\nNote that this endpoint name is misleading; it does not **change** username.\nUsername cannot be changed.\n\nField `username` should contain email or a phone number.\n\nNote: Phone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)\n\nIn case it contains an email: if this user already has an email,\nit will be changed (old email can no longer be used to log in passwordlessly);\notherwise it will be added.\n\nSimilarly with the phone number: if this user already has an old phone number,\nafter the change this phone number can no longer be used to log in passwordlessly.\n\nIn any case, the user will still be able to log in using their username and password",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangeUsernameInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/change-username/confirm": {
+            "post": {
+                "operationId": "ChangeUsernameConfirm",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Confirmation code is invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Confirms changing username with providing OTP.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangeUsernameConfirmInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/change-password": {
+            "post": {
+                "operationId": "ChangePassword",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Updates user's password",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordInput"
+                            },
+                            "example": {
+                                "oldPassword": "string",
+                                "newPassword": "Eg%FXBz{U,xV)+*[Fm<],v7dzx(y?[mqhgJ!$9>a14rP>9Fnu!*F/re;cG<Zwr2[y0+V9pDnUK\\H?QQ@b&rJ=@1s3!g0s0j1Oy^-g}H3"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/sign-in-passwordless": {
+            "post": {
+                "operationId": "SignIn",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Passwordless sign in - makes login if user exists or sign up otherwise.\nMay not work if user used another username / email / phone number during registration\n\nAs an `username` **email** OR **phone number** can be used.\n\nNote: Phone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)\n\nReturns an object with a `token` for the **confirmSignIn** endpoint.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignInInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/sign-in-truecaller": {
+            "post": {
+                "operationId": "SignInWithTruecaller",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignInWithTruecallerOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Passwordless sign in with Truecaller - makes login if user exists or sign up otherwise.\n\nThe phone number is extracted from the Truecaller profile.\n\nNote: Phone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)\n\nReturns the ID, Refresh and Access tokens on success.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignInWithTuecallerInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/sign-in-passwordless/confirm": {
+            "post": {
+                "operationId": "ConfirmSignIn",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfirmSignInOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequest",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/ErrorObject"
+                                        },
+                                        {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "COR-5",
+                                                        "UM-1"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "code"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "NotAuthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServerError",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Confirms passwordless sign in to the wallet.\n\nParams:\n\n  token - received from the **signIn** endpoint\n\n  confirmationCode - OTP code\n\nReturns an object with `accessToken`, `refreshToken`, `idToken` and `did`",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmSignInInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/log-in-passwordless": {
+            "post": {
+                "operationId": "LogIn",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Passwordless log in - for cases when user exists already\n\nAs an `username` **email** OR **phone number** can be used.\n\nNote: Phone number have to start from countrycode `+${countryCode}${phoneNumber}` e.g. +1234567890 (Only international format acceptable)\n\nReturns an object with a `token` for the **confirmSignIn** endpoint.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PasswordlessLoginInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/log-in-passwordless/confirm": {
+            "post": {
+                "operationId": "ConfirmLogIn",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfirmPasswordlessLoginOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Confirmation code is invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Confirms passwordless log in to the wallet.\n\nParams:\n\n  token - received from the **logIn** endpoint\n\n  confirmationCode - OTP code\n\nReturns an object with `accessToken`, `refreshToken`, `idToken` and `did`",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmPasswordlessLoginInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/login-with-refresh-token": {
+            "post": {
+                "operationId": "LoginWithRefreshToken",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Logins an existing user to Affinity with refresh token.\n\nAs an `refreshToken` might be used refresh token previously issued to user on a login.\n\nProvides new access token and did. Previously issued tokens could be in use with another user device.\n\nNote: During the login or registration process, the client receives an access token that is used later for secure interaction with the system. This token has a limited expiration time (1 hour). After that time, the access token (1 hour by default) becomes unsuitable for further use. Then the user needs to re-login to the system.\nA refresh token has a longer lifetime (30 days by default) than an access token and can be used by a client application to obtain a new access token without the need for additional user interaction with the application. For example, the user does not need to enter their login and password again.",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginWithRefreshTokenInput"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/utilities/sign-jwt": {
+            "post": {
+                "operationId": "SignJwt",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignJwtOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorObject"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Sign JWT object.\n\nIf you want to create a self-issued auth as JWT then you can use this API to sign that JWT object.",
+                "tags": [
+                    "Utilities"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignJwtInput"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "/api/v1"
+        }
+    ]
+}

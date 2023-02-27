@@ -1,0 +1,37 @@
+version: "3"
+services:
+  node:
+    restart: always
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/code
+    environment:
+      - MONGO_URL=*****
+      - PORT=3000
+      - DATABASE=test
+      - JOB_COLLECTION=jobs
+      - COURSE_COLLECTION=courses
+      - COURSE_APPLICATION_COLLECTION=course_application
+      - JOB_APPLICATION_COLLECTION=JOB_application
+      - BAP_ID=dsep-protocol.becknprotocol.io
+      - BAP_URL=https://dsep-protocol-network.becknprotocol.io/
+      - PROTOCOL_CLIENT=https://dsep-protocol-client.becknprotocol.io
+      - SAMGARA_BAP_URL=https://bap.dsep.samagra.io
+      - PRIVATE_KEY=*****
+      - SUBSCRIBER_ID=TEST
+      - UNIQUE_ID=TEST
+    depends_on:
+      - mongodatabase
+  mongodatabase:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=superlongusername
+      - MONGO_INITDB_ROOT_PASSWORD=superlonnnnnnnnnngpaswworrrd
+volumes:
+  mongodb:

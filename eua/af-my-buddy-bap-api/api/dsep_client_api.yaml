@@ -1,0 +1,4695 @@
+openapi: 3.0.0
+info:
+  version: 0.1.23
+  title: DSEP Client API
+  description: Client API to manage DSEP categories.
+paths:
+  /job/search:
+    post:
+      tags:
+        - Jobs & Internships
+      summary: Seach jobs
+      requestBody:
+        description: Job search criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchJob'
+            examples:
+              Search with all parameters:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  title:
+                    key: Engineering Manager
+                  company:
+                    name: Google India
+                    locations:
+                      - city: Hyderabad
+                      - city: Pune
+                  skills:
+                    - name: Python
+                      code: Flutter
+              Search by job title:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  title:
+                    key: Engineering Manager
+              Search by company name:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  company:
+                    name: Google India
+              Search by company name in multiple locations :
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  company:
+                    name: Google India
+                    locations:
+                      - city: Hyderabad
+                      - city: Pune
+              Search by cities:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  company:
+                    locations:
+                      - city: Hyderabad
+                      - city: Pune
+              Search by skills:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  skills:
+                    - name: Python
+                      code: Flutter
+      responses:
+        '200':
+          description: Job search request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchJobsResponse'
+              examples:
+                Job search results:
+                  value:
+                    context:
+                      transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                      messageId: 5ac3dd78-829e-4c7d-9139-a15adbb582cc
+                    jobProviderPlatform: Affindi Jobs
+                    jobResults:
+                      - company:
+                          id: '1'
+                          name: Google India Pvt Ltd
+                          imageLink:
+                            - url: data:image/jpeg;base64,R0lG**LOGO**OF**GOOGLE*jIQA7
+                              size: sm
+                        jobs:
+                          - jobId: '1'
+                            role: Software Engineering Manager II, Google Cloud
+                            userSavedItem: false
+                            userAppliedItem: false
+                            description: Like Google's own ambitions, the work of a Software Engineer (SWE) goes way beyond just Search. SWE Managers have not only the technical expertise to take on and provide technical leadership to major projects, but also manage a team of engineers. You not only optimize your own code but make sure engineers are able to optimize theirs. As a SWE Manager you manage your project goals, contribute to product strategy and help develop your team. SWE teams work all across the company, in areas such as information retrieval, artificial intelligence, natural language processing, distributed computing, large-scale system design, networking, security, data compression, user interface design; the list goes on and is growing every day. Operating with scale and speed, our exceptional software engineers are just getting started -- and as a manager, you guide the way.Google Cloud accelerates organizations’ ability to digitally transform their business with the best infrastructure, platform, industry solutions and expertise. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology – all on the cleanest cloud in the industry. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems
+                            additionalDesc:
+                              url: https://g.co/kgs/XRj9sH
+                              contentType: text/html
+                            locations:
+                              - id: '1'
+                                city: Bangalore
+                                cityCode: std:080
+                                state: Karnataka
+                                country: India
+                                countryCode: IND
+                              - id: '2'
+                                city: Hyderabad
+                                cityCode: std:040
+                                state: Telangana
+                                country: India
+                                countryCode: IND
+        '404':
+          description: Job search request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Job search request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/job/search"
+        '500':
+          description: Job search request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/job/search"
+  /job/select:
+    post:
+      tags:
+        - Jobs & Internships
+      summary: Select jobs
+      requestBody:
+        description: Select specific job
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectJob'
+            examples:
+                Select a specific job:
+                  value:
+                    companyId: '1'
+                    jobs:
+                      jobId: '1'
+                    context:
+                      transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                      bppId: affinidibpp.com
+                      bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+      responses:
+        '200':
+          description: Job select request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectedJobResponse'
+              examples:
+                Job selection response:
+                  value:
+                    context:
+                      transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                      bppId: affinidibpp.com
+                      bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+                    company:
+                      id: '1'
+                      name: Google India Pvt Ltd
+                      imageLink:
+                        - url: data:image/jpeg;base64,R0lG**LOGO**OF**GOOGLE*jIQA7
+                          size: sm
+                    selectedJobs:
+                      - jobId: '1'
+                        role: Software Engineering Manager II, Google Cloud
+                        description: Like Google's own ambitions, the work of a Software Engineer (SWE) goes way beyond just Search. SWE Managers have not only the technical expertise to take on and provide technical leadership to major projects, but also manage a team of engineers. You not only optimize your own code but make sure engineers are able to optimize theirs. As a SWE Manager you manage your project goals, contribute to product strategy and help develop your team. SWE teams work all across the company, in areas such as information retrieval, artificial intelligence, natural language processing, distributed computing, large-scale system design, networking, security, data compression, user interface design; the list goes on and is growing every day. Operating with scale and speed, our exceptional software engineers are just getting started -- and as a manager, you guide the way.Google Cloud accelerates organizations’ ability to digitally transform their business with the best infrastructure, platform, industry solutions and expertise. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology – all on the cleanest cloud in the industry. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems
+                        additionalDesc:
+                          url: https://g.co/kgs/XRj9sH
+                          contentType: text/html
+                        locations:
+                          - id: '1'
+                            city: Bangalore
+                            cityCode: std:080
+                            state: Karnataka
+                            country: India
+                            countryCode: IND
+                        fulfillmentCategory:
+                          - id: '1'
+                            type: IN-PERSON
+                          - id: '2'
+                            type: VIRTUAL
+                        educationalQualifications:
+                          - category: Minimum Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Bachelors
+                              - value: Bachelors or Equivalent Practical Experience
+                          - category: Preferred Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Masters
+                              - code: degree
+                                name: Degree
+                                value: PhD
+                              - value: Master's degree or PhD in Computer Science or related technical field.
+                        workExperience:
+                          key: Work Experience
+                          experience:
+                            - code: exp-in-years
+                              name: Minimum Work Experience
+                              value: 8 Years
+                            - name: Software Development Experience
+                              value: 5 Years
+                            - name: Technical Leadership Experience
+                              value: 3 Years
+                            - value: 3 years of experience working in a complex, matrixed organization
+                        responsibilities:
+                          - Set and communicate team priorities that support the broader organization's goals. Align strategy, processes, and decision-making across teams.
+                          - Set clear expectations with individuals based on their level and role and aligned to the broader organization's goals. Meet regularly with individuals to discuss performance and development and provide feedback and coaching
+                          - Develop the mid-term technical vision and roadmap within the scope of your (often multiple) team(s). Evolve the roadmap to meet anticipated future requirements and infrastructure needs
+                          - Design, guide and vet systems designs within the scope of the broader area, and write product or system development code to solve ambiguous problems.
+                          - Review code developed by other engineers and provide feedback to ensure best practices (e.g., style guidelines, checking code in, accuracy, testability, and efficiency).
+                        employmentInformation:
+                          code: employment-info
+                          name: Employment Information
+                          employmentInfo:
+                            - code: emp-duration-type
+                              name: Employment Duration Type
+                              value: Full Time
+                        compensation:
+                          code: salary-info
+                          name: Salary Compensation
+                          salaryInfo:
+                            - code: Salary Range
+                              name: 35 LPA to 65 LPA
+                              value: string
+                            - name: Salary Range
+                              value: 35 LPA to 65 LPA
+                            - code: comp-unit
+                              name: Compensation Unit
+                              value: LPA
+                            - code: min-comp
+                              name: Minimum Compensation
+                              value: '35'
+                            - code: max-comp
+                              name: Maximum Compensation
+                              value: '65'
+                            - code: avg-comp
+                              name: Average Compensation
+                              value: '50'
+                        additionalFormUrl: https://affinidi.com/path/to/application/form
+        '404':
+          description: Job select request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Job select request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/job/select"
+        '500':
+          description: Job select request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/job/select"
+  /job/init:
+    post:
+      tags:
+        - Jobs & Internships
+      summary: Initialize job
+      requestBody:
+        description: Initialize specific job
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitJob'
+            examples:
+              Job init request:
+                value:
+                  context:
+                    transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                    bppId: affinidibpp.com
+                    bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+                  companyId: '1'
+                  jobs:
+                    jobId: '1'
+                  jobFulfillments:
+                    - JobFulfillmentCategoryId: '1'
+                      jobApplicantProfile:
+                        name: John Doe
+                        languages:
+                          - ENG
+                          - HIN
+                        profileUrl: https://linkedin.com/john-doe
+                        creds:
+                          - url: https://cbse.nic.in/link/to/college-marksheet.json
+                            type: application/vc+json
+                          - url: https://drive.google.com/link/to/pass-certificate.json
+                            type: application/vc+json
+                          - url: https://digilocker.com/link/to/python-skill-certificate.json
+                            type: application/vc+json
+                          - url: https://drive.google.com/link/to/python-skill-certificate.pdf
+                            type: application/pdf
+                          - url: https://drive.google.com/link/to/experience-certificate.pdf
+                            type: application/pdf
+                        skills:
+                          - NodeJS
+                          - React
+                          - Project Management
+                          - Enterprise Architecture
+                  additionalFormData:
+                    submissionId:
+                      123456
+                    data:
+                    - formInputKey: resume
+                      formInputValue: data:application/pdf;base64,JVBERi0xLjUKJd...c3RyZWFtCnjarVhLc9s2...
+                    - formInputKey: work-mode
+                      formInputValue: hybrid
+                    - formInputKey: exp-years
+                      formInputValue: '10'
+                    - formInputKey: sop
+                      formInputValue: I am interested in this job because my prior experience is highly relevant to this role.
+      responses:
+        '200':
+          description: Job init request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitJobResponse'
+              examples:
+                Job init response:
+                  value:
+                    context:
+                      transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                      bppId: affinidibpp.com
+                      bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+                    company:
+                      id: '1'
+                      name: Google India Pvt Ltd
+                      imageLink:
+                        - url: data:image/jpeg;base64,R0lG**LOGO**OF**GOOGLE*jIQA7
+                          size: sm
+                    initiatedJobs:
+                      - jobId: '1'
+                        role: Software Engineering Manager II, Google Cloud
+                        description: Like Google's own ambitions, the work of a Software Engineer (SWE) goes way beyond just Search. SWE Managers have not only the technical expertise to take on and provide technical leadership to major projects, but also manage a team of engineers. You not only optimize your own code but make sure engineers are able to optimize theirs. As a SWE Manager you manage your project goals, contribute to product strategy and help develop your team. SWE teams work all across the company, in areas such as information retrieval, artificial intelligence, natural language processing, distributed computing, large-scale system design, networking, security, data compression, user interface design; the list goes on and is growing every day. Operating with scale and speed, our exceptional software engineers are just getting started -- and as a manager, you guide the way.Google Cloud accelerates organizations’ ability to digitally transform their business with the best infrastructure, platform, industry solutions and expertise. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology – all on the cleanest cloud in the industry. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems
+                        additionalDesc:
+                          url: https://g.co/kgs/XRj9sH
+                          contentType: text/html
+                        locations:
+                          - id: '1'
+                            city: Bangalore
+                            cityCode: std:080
+                            state: Karnataka
+                            country: India
+                            countryCode: IND
+                        educationalQualifications:
+                          - category: Minimum Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Bachelors
+                              - value: Bachelors or Equivalent Practical Experience
+                          - category: Preferred Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Masters
+                              - code: degree
+                                name: Degree
+                                value: PhD
+                              - value: Master's degree or PhD in Computer Science or related technical field.
+                        workExperience:
+                          key: Work Experience
+                          experience:
+                            - code: exp-in-years
+                              name: Minimum Work Experience
+                              value: 8 Years
+                            - name: Software Development Experience
+                              value: 5 Years
+                            - name: Technical Leadership Experience
+                              value: 3 Years
+                            - value: 3 years of experience working in a complex, matrixed organization
+                        responsibilities:
+                          - Set and communicate team priorities that support the broader organization's goals. Align strategy, processes, and decision-making across teams.
+                          - Set clear expectations with individuals based on their level and role and aligned to the broader organization's goals. Meet regularly with individuals to discuss performance and development and provide feedback and coaching
+                          - Develop the mid-term technical vision and roadmap within the scope of your (often multiple) team(s). Evolve the roadmap to meet anticipated future requirements and infrastructure needs
+                          - Design, guide and vet systems designs within the scope of the broader area, and write product or system development code to solve ambiguous problems.
+                          - Review code developed by other engineers and provide feedback to ensure best practices (e.g., style guidelines, checking code in, accuracy, testability, and efficiency).
+                        employmentInformation:
+                          code: employment-info
+                          name: Employment Information
+                          employmentInfo:
+                            - code: emp-duration-type
+                              name: Employment Duration Type
+                              value: Full Time
+                        compensation:
+                          code: salary-info
+                          name: Salary Compensation
+                          salaryInfo:
+                            - code: Salary Range
+                              name: 35 LPA to 65 LPA
+                              value: string
+                            - name: Salary Range
+                              value: 35 LPA to 65 LPA
+                            - code: comp-unit
+                              name: Compensation Unit
+                              value: LPA
+                            - code: min-comp
+                              name: Minimum Compensation
+                              value: '35'
+                            - code: max-comp
+                              name: Maximum Compensation
+                              value: '65'
+                            - code: avg-comp
+                              name: Average Compensation
+                              value: '50'
+                    jobFulfillments:
+                      - JobFulfillmentCategoryId: '1'
+                        jobApplicantProfile:
+                          name: John Doe
+                          languages:
+                            - ENG
+                            - HIN
+                          profileUrl: https://linkedin.com/john-doe
+                          creds:
+                            - url: https://cbse.nic.in/link/to/college-marksheet.json
+                              type: application/vc+json
+                            - url: https://drive.google.com/link/to/pass-certificate.json
+                              type: application/vc+json
+                            - url: https://digilocker.com/link/to/python-skill-certificate.json
+                              type: application/vc+json
+                            - url: https://drive.google.com/link/to/python-skill-certificate.pdf
+                              type: application/pdf
+                            - url: https://drive.google.com/link/to/experience-certificate.pdf
+                              type: application/pdf
+                          skills:
+                            - NodeJS
+                            - React
+                            - Project Management
+                            - Enterprise Architecture
+                    additionalFormUrl: "https://affinidi.com/path/to/application/form" 
+                    additionalFormData:
+                      submissionId:
+                        123456
+                      data:
+                      - formInputKey: resume
+                        formInputValue: data:application/pdf;base64,JVBERi0xLjUKJd...c3RyZWFtCnjarVhLc9s2...
+                      - formInputKey: work-mode
+                        formInputValue: hybrid
+                      - formInputKey: exp-years
+                        formInputValue: '10'
+                      - formInputKey: sop
+                        formInputValue: I am interested in this job because my prior experience is highly relevant to this role.
+        '404':
+          description: Job init request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Job init request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/job/init"
+        '500':
+          description: Job init request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/job/init"
+  /job/confirm:
+    post:
+      tags:
+        - Jobs & Internships
+      summary: Confirm jobs
+      requestBody:
+        description: Job confirmation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmJobRequest'
+            examples:
+              Job confirmation request:
+                value:
+                  jobId: '1'
+                  context:
+                    transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                    bppId: affinidibpp.com
+                    bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+                  confirmation:
+                    JobFulfillmentCategoryId: '1'
+                    jobApplicantProfile:
+                      name: John Doe
+                      languages:
+                        - ENG
+                        - HIN
+                      profileUrl: https://linkedin.com/john-doe
+                      creds:
+                        - url: https://cbse.nic.in/link/to/college-marksheet.json
+                          type: application/vc+json
+                        - url: https://drive.google.com/link/to/pass-certificate.json
+                          type: application/vc+json
+                        - url: https://digilocker.com/link/to/python-skill-certificate.json
+                          type: application/vc+json
+                        - url: https://drive.google.com/link/to/python-skill-certificate.pdf
+                          type: application/pdf
+                        - url: https://drive.google.com/link/to/experience-certificate.pdf
+                          type: application/pdf
+                      skills:
+                        - NodeJS
+                        - React
+                        - Project Management
+                        - Enterprise Architecture
+      responses:
+        '200':
+          description: Job confirmation request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmJobResponse'
+              examples:
+                Job confirmation response:
+                  value:
+                    context:
+                      transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                      bppId: affinidibpp.com
+                      bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+                    applicationId: '123456'
+                    company:
+                      id: '1'
+                      name: Google India Pvt Ltd
+                      imageLink:
+                        - url: data:image/jpeg;base64,R0lG**LOGO**OF**GOOGLE*jIQA7
+                          size: sm
+                    confirmedJobs:
+                      - jobId: '1'
+                        role: Software Engineering Manager II, Google Cloud
+                        description: Like Google's own ambitions, the work of a Software Engineer (SWE) goes way beyond just Search. SWE Managers have not only the technical expertise to take on and provide technical leadership to major projects, but also manage a team of engineers. You not only optimize your own code but make sure engineers are able to optimize theirs. As a SWE Manager you manage your project goals, contribute to product strategy and help develop your team. SWE teams work all across the company, in areas such as information retrieval, artificial intelligence, natural language processing, distributed computing, large-scale system design, networking, security, data compression, user interface design; the list goes on and is growing every day. Operating with scale and speed, our exceptional software engineers are just getting started -- and as a manager, you guide the way.Google Cloud accelerates organizations’ ability to digitally transform their business with the best infrastructure, platform, industry solutions and expertise. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology – all on the cleanest cloud in the industry. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems
+                        additionalDesc:
+                          url: https://g.co/kgs/XRj9sH
+                          contentType: text/html
+                        locations:
+                          - id: '1'
+                            city: Bangalore
+                            cityCode: std:080
+                            state: Karnataka
+                            country: India
+                            countryCode: IND
+                        educationalQualifications:
+                          - category: Minimum Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Bachelors
+                              - value: Bachelors or Equivalent Practical Experience
+                          - category: Preferred Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Masters
+                              - code: degree
+                                name: Degree
+                                value: PhD
+                              - value: Master's degree or PhD in Computer Science or related technical field.
+                        workExperience:
+                          key: Work Experience
+                          experience:
+                            - code: exp-in-years
+                              name: Minimum Work Experience
+                              value: 8 Years
+                            - name: Software Development Experience
+                              value: 5 Years
+                            - name: Technical Leadership Experience
+                              value: 3 Years
+                            - value: 3 years of experience working in a complex, matrixed organization
+                        responsibilities:
+                          - Set and communicate team priorities that support the broader organization's goals. Align strategy, processes, and decision-making across teams.
+                          - Set clear expectations with individuals based on their level and role and aligned to the broader organization's goals. Meet regularly with individuals to discuss performance and development and provide feedback and coaching
+                          - Develop the mid-term technical vision and roadmap within the scope of your (often multiple) team(s). Evolve the roadmap to meet anticipated future requirements and infrastructure needs
+                          - Design, guide and vet systems designs within the scope of the broader area, and write product or system development code to solve ambiguous problems.
+                          - Review code developed by other engineers and provide feedback to ensure best practices (e.g., style guidelines, checking code in, accuracy, testability, and efficiency).
+                        employmentInformation:
+                          code: employment-info
+                          name: Employment Information
+                          employmentInfo:
+                            - code: emp-duration-type
+                              name: Employment Duration Type
+                              value: Full Time
+                        compensation:
+                          code: salary-info
+                          name: Salary Compensation
+                          salaryInfo:
+                            - code: Salary Range
+                              name: 35 LPA to 65 LPA
+                              value: string
+                            - name: Salary Range
+                              value: 35 LPA to 65 LPA
+                            - code: comp-unit
+                              name: Compensation Unit
+                              value: LPA
+                            - code: min-comp
+                              name: Minimum Compensation
+                              value: '35'
+                            - code: max-comp
+                              name: Maximum Compensation
+                              value: '65'
+                            - code: avg-comp
+                              name: Average Compensation
+                              value: '50'
+                    jobFulfillments:
+                      - JobFulfillmentCategoryId: '1'
+                        jobApplicantProfile:
+                          name: John Doe
+                          languages:
+                            - ENG
+                            - HIN
+                          profileUrl: https://linkedin.com/john-doe
+                          creds:
+                            - url: https://cbse.nic.in/link/to/college-marksheet.json
+                              type: application/vc+json
+                            - url: https://drive.google.com/link/to/pass-certificate.json
+                              type: application/vc+json
+                            - url: https://digilocker.com/link/to/python-skill-certificate.json
+                              type: application/vc+json
+                            - url: https://drive.google.com/link/to/python-skill-certificate.pdf
+                              type: application/pdf
+                            - url: https://drive.google.com/link/to/experience-certificate.pdf
+                              type: application/pdf
+                          skills:
+                            - NodeJS
+                            - React
+                            - Project Management
+                            - Enterprise Architecture
+                    additionalFormUrl: "https://affinidi.com/path/to/application/form"
+                    additionalFormData:
+                      submissionId:
+                        123456
+                      data:
+                      - formInputKey: resume
+                        formInputValue: data:application/pdf;base64,JVBERi0xLjUKJd...c3RyZWFtCnjarVhLc9s2...
+                      - formInputKey: work-mode
+                        formInputValue: hybrid
+                      - formInputKey: exp-years
+                        formInputValue: '10'
+                      - formInputKey: sop
+                        formInputValue: I am interested in this job because my prior experience is highly relevant to this role.
+        '404':
+          description: Job confirm request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Job confirm could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/job/confirm"
+        '500':
+          description: Job confirmation request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/job/confirm"
+  /job/status:
+    post:
+      tags:
+        - Jobs & Internships
+      summary: Job Status
+      requestBody:
+        description: Status of specific job
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobStatusRequest'
+            examples:
+              Job status request:
+                value:
+                  applicationId: '123456'
+                  context:
+                    transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                    bppId: affinidibpp.com
+                    bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+      responses:
+        '200':
+          description: Job status request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+              examples:
+                Job status response:
+                  value:
+                    context:
+                      transactionId: a9aaecca-10b7-4d19-b640-b047a7c62195
+                      bppId: affinidibpp.com
+                      bppUri: http://affinidibpp.com/DSEP-nlb-d3ed9a3f85596080.elb.ap-south-1.amazonaws.com
+                    applicationId: '123456'
+                    company:
+                      id: '1'
+                      name: Google India Pvt Ltd
+                      imageLink:
+                        - url: data:image/jpeg;base64,R0lG**LOGO**OF**GOOGLE*jIQA7
+                          size: sm
+                    confirmedJobs:
+                      - jobId: '1'
+                        role: Software Engineering Manager II, Google Cloud
+                        description: Like Google's own ambitions, the work of a Software Engineer (SWE) goes way beyond just Search. SWE Managers have not only the technical expertise to take on and provide technical leadership to major projects, but also manage a team of engineers. You not only optimize your own code but make sure engineers are able to optimize theirs. As a SWE Manager you manage your project goals, contribute to product strategy and help develop your team. SWE teams work all across the company, in areas such as information retrieval, artificial intelligence, natural language processing, distributed computing, large-scale system design, networking, security, data compression, user interface design; the list goes on and is growing every day. Operating with scale and speed, our exceptional software engineers are just getting started -- and as a manager, you guide the way.Google Cloud accelerates organizations’ ability to digitally transform their business with the best infrastructure, platform, industry solutions and expertise. We deliver enterprise-grade solutions that leverage Google’s cutting-edge technology – all on the cleanest cloud in the industry. Customers in more than 200 countries and territories turn to Google Cloud as their trusted partner to enable growth and solve their most critical business problems
+                        additionalDesc:
+                          url: https://g.co/kgs/XRj9sH
+                          contentType: text/html
+                        locations:
+                          - id: '1'
+                            city: Bangalore
+                            cityCode: std:080
+                            state: Karnataka
+                            country: India
+                            countryCode: IND
+                        educationalQualifications:
+                          - category: Minimum Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Bachelors
+                              - value: Bachelors or Equivalent Practical Experience
+                          - category: Preferred Educational Qualifications
+                            qualification:
+                              - code: degree
+                                name: Degree
+                                value: Masters
+                              - code: degree
+                                name: Degree
+                                value: PhD
+                              - value: Master's degree or PhD in Computer Science or related technical field.
+                        workExperience:
+                          key: Work Experience
+                          experience:
+                            - code: exp-in-years
+                              name: Minimum Work Experience
+                              value: 8 Years
+                            - name: Software Development Experience
+                              value: 5 Years
+                            - name: Technical Leadership Experience
+                              value: 3 Years
+                            - value: 3 years of experience working in a complex, matrixed organization
+                        responsibilities:
+                          - Set and communicate team priorities that support the broader organization's goals. Align strategy, processes, and decision-making across teams.
+                          - Set clear expectations with individuals based on their level and role and aligned to the broader organization's goals. Meet regularly with individuals to discuss performance and development and provide feedback and coaching
+                          - Develop the mid-term technical vision and roadmap within the scope of your (often multiple) team(s). Evolve the roadmap to meet anticipated future requirements and infrastructure needs
+                          - Design, guide and vet systems designs within the scope of the broader area, and write product or system development code to solve ambiguous problems.
+                          - Review code developed by other engineers and provide feedback to ensure best practices (e.g., style guidelines, checking code in, accuracy, testability, and efficiency).
+                        employmentInformation:
+                          code: employment-info
+                          name: Employment Information
+                          employmentInfo:
+                            - code: emp-duration-type
+                              name: Employment Duration Type
+                              value: Full Time
+                        compensation:
+                          code: salary-info
+                          name: Salary Compensation
+                          salaryInfo:
+                            - code: Salary Range
+                              name: 35 LPA to 65 LPA
+                              value: string
+                            - name: Salary Range
+                              value: 35 LPA to 65 LPA
+                            - code: comp-unit
+                              name: Compensation Unit
+                              value: LPA
+                            - code: min-comp
+                              name: Minimum Compensation
+                              value: '35'
+                            - code: max-comp
+                              name: Maximum Compensation
+                              value: '65'
+                            - code: avg-comp
+                              name: Average Compensation
+                              value: '50'
+                    jobFulfillments:
+                      - JobFulfillmentCategoryId: '1'
+                        jobApplicantProfile:
+                          name: John Doe
+                          languages:
+                            - ENG
+                            - HIN
+                          profileUrl: https://linkedin.com/john-doe
+                          creds:
+                            - url: https://cbse.nic.in/link/to/college-marksheet.json
+                              type: application/vc+json
+                            - url: https://drive.google.com/link/to/pass-certificate.json
+                              type: application/vc+json
+                            - url: https://digilocker.com/link/to/python-skill-certificate.json
+                              type: application/vc+json
+                            - url: https://drive.google.com/link/to/python-skill-certificate.pdf
+                              type: application/pdf
+                            - url: https://drive.google.com/link/to/experience-certificate.pdf
+                              type: application/pdf
+                          skills:
+                            - NodeJS
+                            - React
+                            - Project Management
+                            - Enterprise Architecture
+                        jobStatus:
+                          status: Application Accepted
+                          statusCode: application-accepted
+                    additionalFormUrl: https://affinidi.com/path/to/application/form
+                    additionalFormData:
+                      submissionId:
+                        123456
+                      data:
+                      - formInputKey: resume
+                        formInputValue: data:application/pdf;base64,JVBERi0xLjUKJd...c3RyZWFtCnjarVhLc9s2...
+                      - formInputKey: work-mode
+                        formInputValue: hybrid
+                      - formInputKey: exp-years
+                        formInputValue: '10'
+                      - formInputKey: sop
+                        formInputValue: I am interested in this job because my prior experience is highly relevant to this role.
+        '404':
+          description: Job status request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Job status request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/job/status"
+        '500':
+          description: Job status request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/job/status"
+  /mentorship/search:
+    post:
+      tags:
+        - Mentoring & Coaching
+      summary: Seach mentorships
+      requestBody:
+        description: Mentorship search criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchMentorshipRequest'
+            examples:
+              Search by session title and mentor name:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  sessionTitle:
+                    key: Management
+                  mentor:
+                    name: joffin
+              Search by session title:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  sessionTitle:
+                    key: Management
+              Search by mentor name:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  mentor:
+                    name: joffin
+      responses:
+        '200':
+          description: Mentorship search request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentorshipResults'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                mentorshipProviders:
+                  - id: 63d93aea62820fd9e6be9d1b
+                    code: org7
+                    name: ShikshalokamSeven
+                    description: ShikshalokamOrgSeven
+                    mentorships:
+                      - id: 63e6065223df082856936335
+                        code: Class Room Management Level 1
+                        name: Class Room Management Level 1
+                        description: A level 1 session on class room management for state schools and colleges.
+                        longDescription: A level 1 session on class room management for state schools and colleges.
+                        imageLocations:
+                          - users/1232s2133sdd1-12e2dasd3123.png
+                        categories:
+                          - id: Infrastructure Management
+                            code: Infrastructure Management
+                            name: Infrastructure Management
+                        available: 5
+                        allocated: 10
+                        price: 0
+                        mentorshipSessions:
+                          - id: 2494098b-a2e8-4d29-8791-1b708c458cb5
+                            userSavedItem: false
+                            userAppliedItem: false
+                            language: English
+                            timingStart: '2023-02-19T23:23:16'
+                            timingEnd: '2023-02-20T01:23:16'
+                            type: ONLINE
+                            status: Live
+                            timezone: Asia/Calcutta
+                            mentor:
+                              id: 63e5fa8762820fd9e6be9e21
+                              name: John Doe
+                              gender: Male
+                              image: image location
+                              rating: '4.9'
+                              aboutMentor: With a career spanning multiple decades, this mentor is a true veteran of their industry. They have seen it all, and have a wealth of stories and insights to share. They are passionate about passing on their knowledge and experience to others, and take great pride in helping others achieve their goals. Whether you're a newcomer to the industry or a seasoned pro, this mentor is an invaluable source of wisdom and guidance.
+                              professionalExperience: Senior Consultant | Director of R&D - FutureTech Labs
+                              qualification: M.Tech from NID Ahmedabad
+                              experience: 13 Years
+                              totalMeetings: 124+
+                              specialisation: Machine Learning
+                        recommendedFor:
+                          - recommendationForCode: deo
+                            recommendationForName: District education officer
+        '404':
+          description: Mentorship search request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship search request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/mentorship/search"
+        '500':
+          description: Mentorship search request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/mentorship/search"
+  /mentorship/select:
+    post:
+      tags:
+        - Mentoring & Coaching
+      summary: Select specific mentorship object
+      requestBody:
+        description: Object for selected mentorship
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectMentorshipRequest'
+            example:
+              mentorshipId: 63e6065223df082856936335
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: dev.elevate-apis.shikshalokam.org/bpp
+                bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+      responses:
+        '200':
+          description: Mentorship select request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectMentorshipResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: dev.elevate-apis.shikshalokam.org/bpp
+                  bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+                mentorshipProvider:
+                  id: 63d93aea62820fd9e6be9d1b
+                  code: org7
+                  name: ShikshalokamSeven
+                  description: ShikshalokamOrgSeven
+                  mentorships:
+                    - id: 63e6065223df082856936335
+                      code: Class Room Management Level 1
+                      name: Class Room Management Level 1
+                      description: A level 1 session on class room management for state schools and colleges.
+                      longDescription: A level 1 session on class room management for state schools and colleges.
+                      imageLocations:
+                        - users/1232s2133sdd1-12e2dasd3123.png
+                      categories:
+                        - id: Infrastructure Management
+                          code: Infrastructure Management
+                          name: Infrastructure Management
+                      available: 5
+                      allocated: 10
+                      price: 0
+                      mentorshipSessions:
+                        - id: 2494098b-a2e8-4d29-8791-1b708c458cb5
+                          language: English
+                          timingStart: '2023-02-19T23:23:16'
+                          timingEnd: '2023-02-20T01:23:16'
+                          type: ONLINE
+                          status: Live
+                          timezone: Asia/Calcutta
+                          mentor:
+                            id: 63e5fa8762820fd9e6be9e21
+                            name: John Doe
+                            gender: Male
+                            image: image location
+                            rating: '4.9'
+                            aboutMentor: With a career spanning multiple decades, this mentor is a true veteran of their industry. They have seen it all, and have a wealth of stories and insights to share. They are passionate about passing on their knowledge and experience to others, and take great pride in helping others achieve their goals. Whether you're a newcomer to the industry or a seasoned pro, this mentor is an invaluable source of wisdom and guidance.
+                            professionalExperience: Senior Consultant | Director of R&D - FutureTech Labs
+                            qualification: M.Tech from NID Ahmedabad
+                            experience: 13 Years
+                            totalMeetings: 124+
+                            specialisation: Machine Learning
+                      recommendedFor:
+                        - recommendationForCode: deo
+                          recommendationForName: District education officer
+        '404':
+          description: Mentorship select request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship select request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/mentorship/select"
+        '500':
+          description: Mentorship select request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/mentorship/select"
+  /mentorship/init:
+    post:
+      tags:
+        - Mentoring & Coaching
+      summary: Init Mentorship
+      requestBody:
+        description: Mentorship init request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitMentorshipRequest'
+            example:
+              mentorshipId: 63e6065223df082856936335
+              mentorshipSessionId: 2494098b-a2e8-4d29-8791-1b708c458cb5
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: dev.elevate-apis.shikshalokam.org/bpp
+                bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+              billing:
+                name: Van Bode III
+                phone: 881-311-2951 x01508
+                email: test_user@gmail.com
+                time:
+                  timezone: IST
+      responses:
+        '200':
+          description: Mentorship init request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitMentorshipResponse'
+        '404':
+          description: Mentorship init request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship init could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/mentorship/init"
+        '500':
+          description: Mentorship init request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/mentorship/init"
+  /mentorship/confirm:
+    post:
+      tags:
+        - Mentoring & Coaching
+      summary: Confirm mentorship
+      requestBody:
+        description: Mentorship confirmation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmMentorshipRequest'
+            example:
+              mentorshipId: 63e6065223df082856936335
+              mentorshipSessionId: 2494098b-a2e8-4d29-8791-1b708c458cb5
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: dev.elevate-apis.shikshalokam.org/bpp
+                bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+              billing:
+                name: Van Bode III
+                phone: 881-311-2951 x01508
+                email: test_user@gmail.com
+                time:
+                  timezone: IST
+      responses:
+        '200':
+          description: Mentorship confirmation request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmMentorshipResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: dev.elevate-apis.shikshalokam.org/bpp
+                  bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+                mentorshipApplicationId: '123456'
+                mentorshipSession:
+                  id: 2494098b-a2e8-4d29-8791-1b708c458cb5
+                  sessionJoinLinks:
+                    - id: https://dev.elevate-apis.shikshalokam.org/dsep-mentoring/v1/sessions/join/63e6065223df082856936335?user=63e60798b2ec6cdb1b106b3d&name=Van%20Bode%20III
+                      link: https://dev.elevate-apis.shikshalokam.org/dsep-mentoring/v1/sessions/join/63e6065223df082856936335?user=63e60798b2ec6cdb1b106b3d&name=Van%20Bode%20III
+                  language: English
+                  timingStart: '2023-02-19T23:23:16'
+                  timingEnd: '2023-02-20T01:23:16'
+                  type: ONLINE
+                  status: Live
+                  timezone: Asia/Calcutta
+                  mentor:
+                    id: 63e5fa8762820fd9e6be9e21
+                    name: John Doe
+                    gender: Male
+                    image: image location
+                    rating: '4.9'
+                    aboutMentor: With a career spanning multiple decades, this mentor is a true veteran of their industry. They have seen it all, and have a wealth of stories and insights to share. They are passionate about passing on their knowledge and experience to others, and take great pride in helping others achieve their goals. Whether you're a newcomer to the industry or a seasoned pro, this mentor is an invaluable source of wisdom and guidance.
+                    professionalExperience: Senior Consultant | Director of R&D - FutureTech Labs
+                    qualification: M.Tech from NID Ahmedabad
+                    experience: 13 Years
+                    totalMeetings: 124+
+                    specialisation: Machine Learning
+        '404':
+          description: Mentorship confirm request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship confirm could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/mentorship/confirm"
+        '500':
+          description: Mentorship confirmation request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/mentorship/confirm"
+  /mentorship/status:
+    post:
+      tags: 
+        - Mentoring & Coaching
+      summary: Mentorship status check
+      requestBody:
+        description: Mentorship status request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentorshipStatusRequest'
+            example:
+              mentorshipApplicationId: '123456'
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: dev.elevate-apis.shikshalokam.org/bpp
+                bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+      responses:
+        '200':
+          description: Mentorship status request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentorshipStatusResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: dev.elevate-apis.shikshalokam.org/bpp
+                  bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+                mentorshipApplicationId: '123456'
+                mentorshipApplicationStatus: CANCELLED
+                mentorshipProvider:
+                  id: 63d93aea62820fd9e6be9d1b
+                  code: org7
+                  name: ShikshalokamSeven
+                  description: ShikshalokamOrgSeven
+                  mentorships:
+                    - id: 63e6065223df082856936335
+                      code: Class Room Management Level 1
+                      name: Class Room Management Level 1
+                      description: A level 1 session on class room management for state schools and colleges.
+                      longDescription: A level 1 session on class room management for state schools and colleges.
+                      imageLocations:
+                        - users/1232s2133sdd1-12e2dasd3123.png
+                      categories:
+                        - id: Infrastructure Management
+                          code: Infrastructure Management
+                          name: Infrastructure Management
+                      available: 5
+                      allocated: 10
+                      price: 0
+                      mentorshipSessions:
+                        - id: 2494098b-a2e8-4d29-8791-1b708c458cb5
+                          language: English
+                          timingStart: '2023-02-19T23:23:16'
+                          timingEnd: '2023-02-20T01:23:16'
+                          type: ONLINE
+                          status: Live
+                          timezone: Asia/Calcutta
+                          mentor:
+                            id: 63e5fa8762820fd9e6be9e21
+                            name: John Doe
+                            gender: Male
+                            image: image location
+                            rating: '4.9'
+                            aboutMentor: With a career spanning multiple decades, this mentor is a true veteran of their industry. They have seen it all, and have a wealth of stories and insights to share. They are passionate about passing on their knowledge and experience to others, and take great pride in helping others achieve their goals. Whether you're a newcomer to the industry or a seasoned pro, this mentor is an invaluable source of wisdom and guidance.
+                            professionalExperience: Senior Consultant | Director of R&D - FutureTech Labs
+                            qualification: M.Tech from NID Ahmedabad
+                            experience: 13 Years
+                            totalMeetings: 124+
+                            specialisation: Machine Learning
+                      recommendedFor:
+                        - recommendationForCode: deo
+                          recommendationForName: District education officer
+        '404':
+          description: Mentorship status request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship status could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/mentorship/status"
+        '500':
+          description: Mentorship status request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/mentorship/status"
+  /mentorship/cancel:
+    post:
+      tags: 
+        - Mentoring & Coaching
+      summary: Mentorship cancel request
+      requestBody:
+        description: Mentorship cancel request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentorshipCancelRequest'
+            examples:
+              Cancel with reason id:
+                value:
+                  mentorshipApplicationId: '123456'
+                  mentorshipCancellationReasonId: 12
+                  context:
+                    transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                    bppId: dev.elevate-apis.shikshalokam.org/bpp
+                    bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+              Cancel with reason description:
+                value:
+                  mentorshipApplicationId: '123456'
+                  mentorshipCancellationReason: "This timing isn't convenient for me anymore"
+                  context:
+                    transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                    bppId: dev.elevate-apis.shikshalokam.org/bpp
+                    bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+      responses:
+        '200':
+          description: Mentorship cancel request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentorshipCancelResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: dev.elevate-apis.shikshalokam.org/bpp
+                  bppUri: https://dev.elevate-apis.shikshalokam.org/bpp
+                mentorshipApplicationId: '123456'
+        '404':
+          description: Mentorship cancel request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship status could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/mentorship/cancel"
+        '500':
+          description: Mentorship cancel request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/mentorship/cancel"
+  /scholarship/search:
+    post:
+      tags:
+        - Scholarships & Grants
+      summary: Search scholarships
+      requestBody:
+        description: Scholarship search criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchScholarship'
+            examples:
+              Search by scholarship name:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  name: Undergraduation scholarship
+              Search by gender criteria:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  gender: Female
+              Search by by financial income criteria:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  finStatus:
+                    family_income: '200000'
+              Search by by caste criteria:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  casteCategory:
+                    - caste: SC
+              Search by categories for female students:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  categories:
+                    - code: ug
+                  gender: Female
+      responses:
+        '200':
+          description: Scholarship search request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScholarshipResults'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                scholarshipProviders:
+                  - id: ZQU31169990
+                    name: XYZ Education Foundation
+                    description: XYZ Education Foundation
+                    scholarships:
+                      - id: SCM_00420068
+                        name: XYZ Foundation Undergraduation scholarship
+                        userSavedItem: false
+                        userAppliedItem: false
+                        description: XYZ Foundation Undergraduation scholarship
+                        amount:
+                          amount: 30000
+                          currency: INR
+                        category:
+                          id: DSEP_CAT_1
+                          name: Under Graduate
+                          code: ug
+                        scholarshipDetails:
+                          id: DSEP_FUL_01
+                          type: SCHOLARSHIP
+                          gender: Female
+                          applicationStartDate: '2022-12-01'
+                          applicationEndDate: '2022-12-31'
+                          supportContact:
+                            name: Mary G
+                            phone: '9876543210'
+                            email: maryg@xyz.com
+        '404':
+          description: Scholarship search request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Scholarship search request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/scholarship/search"
+        '500':
+          description: Scholarship search request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/scholarship/search"
+  /scholarship/select:
+    post:
+      tags:
+        - Scholarships & Grants
+      summary: Select scholarship
+      requestBody:
+        description: Scholarship selection
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectScholarship'
+            example:
+              scholarshipProiderId: ZQU31169990
+              scholarshipId: SCM_58741444
+              scholarshipDetailsId: DSEP_FUL_58741444
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+      responses:
+        '200':
+          description: Scholarship select request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectScholarshipResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                  bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+                scholarshipProvider:
+                  id: BX213573733
+                  name: XYZ Education Foundation
+                  scholarships:
+                  - id: SCM_00420068
+                    name: XYZ Foundation Undergraduation scholarship
+                    description: XYZ Foundation Undergraduation scholarship
+                    amount:
+                      amount: 30000
+                      currency: INR
+                    category:
+                      id: DSEP_CAT_1
+                      name: Under Graduate
+                      code: ug
+                    scholarshipDetails:
+                      id: DSEP_FUL_01
+                      type: SCHOLARSHIP
+                      applicationStartDate: '2022-12-01'
+                      applicationEndDate: '2022-12-31'
+                      supportContact:
+                        name: Mary G
+                        phone: '9876543210'
+                        email: maryg@xyz.com
+                    additionalFormData:
+                      formUrl: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public/getForm/a9aaecca-10b7-4d19-b640-022723112309/ba854d6184fa48eea36aab701486eee9
+                      formMimeType: text/html
+                      submissionId: 
+                      data: []
+                    academicQualificationsCriteria: 
+                    - code: gr
+                      name: Grade
+                      value: Grade 12
+                    - code: percentage_grade
+                      name: Percentage/Grade
+                      value: '>= 50'
+                    - code: passing_year
+                      name: Passing Year
+                      value: 2021
+                    finStatusCriteria: 
+                    - code: family_income
+                      name: Family Income
+                      value: '<= 2000000'
+                    benefits: 
+                    - code: scholarship-amount
+                      name: Scholarship Amount
+                      value: Upto Rs.30000 per year
+        '404':
+          description: Scholarship select request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Scholarship select request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/scholarship/select"
+        '500':
+          description: Scholarship search request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/scholarship/select"
+  /scholarship/init:
+    post:
+      tags:
+        - Scholarships & Grants
+      summary: Init Scholarship
+      requestBody:
+        description: Scholarship init request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitScholarshipRequest'
+            example:
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+              scholarshipProvider:
+                id: BX213573733
+                name: XYZ Education Foundation
+                scholarships:
+                - id: SCM_00420068
+                  name: XYZ Foundation Undergraduation scholarship
+                  description: XYZ Foundation Undergraduation scholarship
+                  amount:
+                    amount: 30000
+                    currency: INR
+                  categoryId: DSEP_CAT_1
+                  scholarshipDetails:
+                    id: DSEP_FUL_01
+                    type: SCHOLARSHIP
+                    applicationStartDate: '2022-12-01'
+                    applicationEndDate: '2022-12-31'
+                    supportContact:
+                      name: Mary G
+                      phone: '9876543210'
+                      email: maryg@xyz.com
+                    scholarshipRequestor:
+                      name: James
+                      phone: '498674'
+                      address: Mumbai
+                      needOfScholarship: higher education
+                      docUrl: ' http://abc.co/docs'
+                  additionalFormData:
+                    formUrl: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public/getForm/a9aaecca-10b7-4d19-b640-022723112309/ba854d6184fa48eea36aab701486eee9
+                    formMimeType: text/html
+                    submissionId: 8203501c-8934-468c-b947-1d5317847e9a
+                    data:
+                    - formInputKey: name
+                      formInputValue: James
+                    - formInputKey: phone
+                      formInputValue: 498674
+                    - formInputKey: address
+                      formInputValue: Mumbai
+                    - formInputKey: needOfScholarship
+                      formInputValue: higher education
+                    - formInputKey: docUrl
+                      formInputValue: http://abc.co/docs
+                  academicQualificationsCriteria: 
+                  - code: gr
+                    name: Grade
+                    value: Grade 12
+                  - code: percentage_grade
+                    name: Percentage/Grade
+                    value: '>= 50'
+                  - code: passing_year
+                    name: Passing Year
+                    value: 2021
+                  finStatusCriteria: 
+                  - code: family_income
+                    name: Family Income
+                    value: <= 2000000
+                  benefits: 
+                  - code: scholarship-amount
+                    name: Scholarship Amount
+                    value: Upto Rs.30000 per year
+      responses:
+        '200':
+          description: Scholarship init request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitScholarshipResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                  bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+                scholarshipProvider:
+                  id: BX213573733
+                  name: XYZ Education Foundation
+                  description: XYZ Education Foundation
+                  scholarships:
+                  - id: SCM_00420068
+                    name: XYZ Foundation Undergraduation scholarship
+                    description: XYZ Foundation Undergraduation scholarship
+                    categoryId: DSEP_CAT_1
+                    amount:
+                      amount: 30000
+                      currency: INR
+                    scholarshipDetails:
+                      id: DSEP_FUL_01
+                      type: SCHOLARSHIP
+                      applicationStartDate: '2022-12-01'
+                      applicationEndDate: '2022-12-31'
+                      supportContact:
+                        name: Mary G
+                        phone: '9876543210'
+                        email: maryg@xyz.com
+                      scholarshipRequestor:
+                        name: James
+                        phone: '498674'
+                        address: Mumbai
+                        needOfScholarship: higher education
+                        docUrl: ' http://abc.co/docs'
+                    additionalFormData:
+                      formUrl: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public/getForm/a9aaecca-10b7-4d19-b640-022723112309/ba854d6184fa48eea36aab701486eee9
+                      formMimeType: text/html
+                      submissionId: 8203501c-8934-468c-b947-1d5317847e9a
+                      data:
+                      - formInputKey: name
+                        formInputValue: James
+                      - formInputKey: phone
+                        formInputValue: 498674
+                      - formInputKey: address
+                        formInputValue: Mumbai
+                      - formInputKey: needOfScholarship
+                        formInputValue: higher education
+                      - formInputKey: docUrl
+                        formInputValue: http://abc.co/docs
+                    academicQualificationsCriteria: 
+                    - code: gr
+                      name: Grade
+                      value: Grade 12
+                    - code: percentage_grade
+                      name: Percentage/Grade
+                      value: '>= 50'
+                    - code: passing_year
+                      name: Passing Year
+                      value: 2021
+                    finStatusCriteria: 
+                    - code: family_income
+                      name: Family Income
+                      value: <= 2000000
+                    benefits: 
+                    - code: scholarship-amount
+                      name: Scholarship Amount
+                      value: Upto Rs.30000 per year
+        '404':
+          description: Scholarship init request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Scholarship init could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/scholarship/init"
+        '500':
+          description: Scholarship init request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/scholarship/init"
+  /scholarship/confirm:
+    post:
+      tags:
+        - Scholarships & Grants
+      summary: Confirm scholarship
+      requestBody:
+        description: Scholarship confirmation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmScholarshipRequest'
+            example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                  bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+                scholarshipProvider:
+                  id: BX213573733
+                  name: XYZ Education Foundation
+                  description: XYZ Education Foundation
+                  scholarships:
+                  - id: SCM_00420068
+                    name: XYZ Foundation Undergraduation scholarship
+                    description: XYZ Foundation Undergraduation scholarship
+                    categoryId: DSEP_CAT_1
+                    amount:
+                      amount: 30000
+                      currency: INR
+                    scholarshipDetails:
+                      id: DSEP_FUL_01
+                      type: SCHOLARSHIP
+                      applicationStartDate: '2022-12-01'
+                      applicationEndDate: '2022-12-31'
+                      supportContact:
+                        name: Mary G
+                        phone: '9876543210'
+                        email: maryg@xyz.com
+                      scholarshipRequestor:
+                        name: James
+                        phone: '498674'
+                        address: Mumbai
+                        needOfScholarship: higher education
+                        docUrl: ' http://abc.co/docs'
+                    additionalFormData:
+                      formUrl: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public/getForm/a9aaecca-10b7-4d19-b640-022723112309/ba854d6184fa48eea36aab701486eee9
+                      formMimeType: text/html
+                      submissionId: 8203501c-8934-468c-b947-1d5317847e9a
+                      data:
+                      - formInputKey: name
+                        formInputValue: James
+                      - formInputKey: phone
+                        formInputValue: 498674
+                      - formInputKey: address
+                        formInputValue: Mumbai
+                      - formInputKey: needOfScholarship
+                        formInputValue: higher education
+                      - formInputKey: docUrl
+                        formInputValue: http://abc.co/docs
+                    academicQualificationsCriteria: 
+                    - code: gr
+                      name: Grade
+                      value: Grade 12
+                    - code: percentage_grade
+                      name: Percentage/Grade
+                      value: '>= 50'
+                    - code: passing_year
+                      name: Passing Year
+                      value: 2021
+                    finStatusCriteria: 
+                    - code: family_income
+                      name: Family Income
+                      value: <= 2000000
+                    benefits: 
+                    - code: scholarship-amount
+                      name: Scholarship Amount
+                      value: Upto Rs.30000 per year
+      responses:
+        '200':
+          description: Scholarship confirmation request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmScholarshipResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                  bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+                scholarshipApplicationId: APP_32620371
+                scholarshipApplicationStatus: ACTIVE
+                scholarshipProvider:
+                  id: BX213573733
+                  name: XYZ Education Foundation
+                  description: XYZ Education Foundation
+                  scholarships:
+                  - id: SCM_00420068
+                    name: XYZ Foundation Undergraduation scholarship
+                    description: XYZ Foundation Undergraduation scholarship
+                    categoryId: DSEP_CAT_1
+                    amount:
+                      amount: 30000
+                      currency: INR
+                    scholarshipDetails:
+                      id: DSEP_FUL_01
+                      type: SCHOLARSHIP
+                      applicationStartDate: '2022-12-01'
+                      applicationEndDate: '2022-12-31'
+                      supportContact:
+                        name: Mary G
+                        phone: '9876543210'
+                        email: maryg@xyz.com
+                      scholarshipRequestor:
+                        name: James
+                        phone: '498674'
+                        address: Mumbai
+                        needOfScholarship: higher education
+                        docUrl: ' http://abc.co/docs'
+                    additionalFormData:
+                      formUrl: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public/getForm/a9aaecca-10b7-4d19-b640-022723112309/ba854d6184fa48eea36aab701486eee9
+                      formMimeType: text/html
+                      submissionId: 8203501c-8934-468c-b947-1d5317847e9a
+                      data:
+                      - formInputKey: name
+                        formInputValue: James
+                      - formInputKey: phone
+                        formInputValue: 498674
+                      - formInputKey: address
+                        formInputValue: Mumbai
+                      - formInputKey: needOfScholarship
+                        formInputValue: higher education
+                      - formInputKey: docUrl
+                        formInputValue: http://abc.co/docs
+                    academicQualificationsCriteria: 
+                    - code: gr
+                      name: Grade
+                      value: Grade 12
+                    - code: percentage_grade
+                      name: Percentage/Grade
+                      value: '>= 50'
+                    - code: passing_year
+                      name: Passing Year
+                      value: 2021
+                    finStatusCriteria: 
+                    - code: family_income
+                      name: Family Income
+                      value: <= 2000000
+                    benefits: 
+                    - code: scholarship-amount
+                      name: Scholarship Amount
+                      value: Upto Rs.30000 per year
+        '404':
+          description: Scholarship confirm request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Scholarship confirm could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/scholarship/confirm"
+        '500':
+          description: Scholarship confirmation request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/scholarship/confirm"
+  /scholarship/status:
+    post:
+      tags: 
+        - Scholarships & Grants
+      summary: Scholarship status check
+      requestBody:
+        description: Scholarship status request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScholarshipStatusRequest'
+            example:
+              scholarshipApplicationId: 'APP_32620371'
+              context:
+                transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                bppId: https://xyzbpp.com/
+                bppUri: https://api.xyzbpp.com/v0/
+      responses:
+        '200':
+          description: Scholarship status request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScholarshipStatusResponse'
+              example:
+                context:
+                  transactionId: bdb5ba09-2241-4f00-b434-73466cd06228
+                  bppId: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1
+                  bppUri: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public
+                scholarshipApplicationId: APP_32620371
+                scholarshipApplicationStatus: ACTIVE
+                scholarshipProvider:
+                  id: BX213573733
+                  name: XYZ Education Foundation
+                  description: XYZ Education Foundation
+                  scholarships:
+                  - id: SCM_00420068
+                    name: XYZ Foundation Undergraduation scholarship
+                    description: XYZ Foundation Undergraduation scholarship
+                    categoryId: DSEP_CAT_1
+                    amount:
+                      amount: 30000
+                      currency: INR
+                    scholarshipDetails:
+                      id: DSEP_FUL_01
+                      type: SCHOLARSHIP
+                      applicationStartDate: '2022-12-01'
+                      applicationEndDate: '2022-12-31'
+                      supportContact:
+                        name: Mary G
+                        phone: '9876543210'
+                        email: maryg@xyz.com
+                      scholarshipRequestor:
+                        name: James
+                        phone: '498674'
+                        address: Mumbai
+                        needOfScholarship: higher education
+                        docUrl: ' http://abc.co/docs'
+                    additionalFormData:
+                      formUrl: https://proteanrc.centralindia.cloudapp.azure.com/dsep-bpp-1/public/getForm/a9aaecca-10b7-4d19-b640-022723112309/ba854d6184fa48eea36aab701486eee9
+                      formMimeType: text/html
+                      submissionId: 8203501c-8934-468c-b947-1d5317847e9a
+                      data:
+                      - formInputKey: name
+                        formInputValue: James
+                      - formInputKey: phone
+                        formInputValue: 498674
+                      - formInputKey: address
+                        formInputValue: Mumbai
+                      - formInputKey: needOfScholarship
+                        formInputValue: higher education
+                      - formInputKey: docUrl
+                        formInputValue: http://abc.co/docs
+                    academicQualificationsCriteria: 
+                    - code: gr
+                      name: Grade
+                      value: Grade 12
+                    - code: percentage_grade
+                      name: Percentage/Grade
+                      value: '>= 50'
+                    - code: passing_year
+                      name: Passing Year
+                      value: 2021
+                    finStatusCriteria: 
+                    - code: family_income
+                      name: Family Income
+                      value: <= 2000000
+                    benefits: 
+                    - code: scholarship-amount
+                      name: Scholarship Amount
+                      value: Upto Rs.30000 per year
+        '404':
+          description: Scholarship status request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Mentorship status could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/scholarship/status"
+        '500':
+          description: Scholarship status request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/scholarship/status"
+  /course/search:
+    post:
+      tags:
+        - Training & Courses
+      summary: Seach courses
+      requestBody:
+        description: Course search criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCourseRequest'
+            examples:
+              Search by category:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  category: SCHOOL
+              Search by provider:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  provider: AICTE
+              Search by category with course mode:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  provider: AICTE
+                  deepSearch:
+                    - searchCriteria: Course Description Meta Data
+                      searchParameters:
+                        - name: course_mode
+                          value: regular
+              Search by course name:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  searchTitle: python
+              Search by instructor name:
+                value:
+                  loggedInUserEmail:
+                    test.user@xyz.com
+                  searchTitle: Prof Kannan Moudgalya
+      responses:
+        '200':
+          description: Course search request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseResults'
+        '404':
+          description: Course search request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Course search request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/course/search"
+        '500':
+          description: Course search request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/course/search"
+  /course/select:
+    post:
+      tags:
+        - Training & Courses
+      summary: Select specific course object
+      requestBody:
+        description: Object for selected course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectCourseRequest'
+      responses:
+        '200':
+          description: Course select request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectCourseResponse'
+        '404':
+          description: Course select request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Course select request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/course/select"
+        '500':
+          description: Course select request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/course/select"
+  /course/init:
+    post:
+      tags:
+        - Training & Courses
+      summary: Initialize course
+      requestBody:
+        description: Initialize specific course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitCourse'
+      responses:
+        '200':
+          description: Course init request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitCourseResponse'
+        '404':
+          description: Course init request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Course init request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/course/init"
+        '500':
+          description: Course init request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/course/init"
+  /course/confirm:
+    post:
+      tags:
+        - Training & Courses
+      summary: Confirm course
+      requestBody:
+        description: Course confirmation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmCourseRequest'
+      responses:
+        '200':
+          description: Course confirmation request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmCourseResponse'
+        '404':
+          description: Course confirm request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Course confirm could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/course/confirm"
+        '500':
+          description: Course confirmation request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/course/confirm"
+  /course/status:
+    post:
+      tags:
+        - Training & Courses
+      summary: Course Status
+      requestBody:
+        description: Status of specific course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseStatusRequest'
+            examples:
+              Course status request:
+                value:
+                  applicationId: '123456'
+                  context:
+                    transactionId: a9aaecca-10b7-4d19-b640-b047a7c62210
+                    bppId: bpp.dsep.samagra.io
+                    bppUri: https://bpp.dsep.samagra.io
+      responses:
+        '200':
+          description: Course status request sent to network
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseStatusResponse'
+        '404':
+          description: Course status request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "404"
+                message: "Course status request could not be created"
+                data: "Long descriptive message"
+                type: "Application error"
+                path: "/course/status"
+        '500':
+          description: Course status request could not be created due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: "500"
+                message: "Error processing request {specific error log from exception/error}"
+                data: "Additional error message/logs"
+                type: "System error"
+                path: "/course/status"
+components:
+  schemas:
+    SearchJob:
+      description: Schema for Job search object
+      type: object
+      required:
+        - loggedInUserEmail
+      properties:
+        loggedInUserEmail:
+          description: loggedin user email to get user items
+          type: string
+        title:
+          type: object
+          properties: 
+            key:
+              type: string
+        company:
+          type: object
+          properties: 
+            name:
+              type: string
+            locations:
+              type: array
+              items:
+                type: object
+                properties: 
+                  city:
+                    type: string
+        skills:
+          type: array
+          items:
+            type: object
+            properties: 
+              name:
+                type: string
+              code:
+                type: string
+    SearchJobsResponse:
+      description: Schema for searched job results/response
+      type: object
+      required:
+        - context
+        - jobs
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        jobProviderPlatform:
+          type: string
+          description: Job ProviderPlatform
+        jobResults:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/JobResult'
+    JobResult:
+      description: Schema for Job result
+      type: object
+      required:
+        - company
+        - jobs
+      properties:
+        company:
+          $ref: '#/components/schemas/Company'
+        jobs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/JobSummary'
+    Company:
+      description: Company object
+      type: object
+      required:
+        - id
+        - name
+        - imageLink
+      properties:
+        id:        
+          type: string
+        name:
+          type: string
+        imageLink:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Image'
+    Image:
+      description: Image object
+      type: object
+      required:
+        - url
+        - size
+      properties:
+        url:        
+          type: string
+        size:
+          type: string
+    JobSummary:
+      description: Schema for Job summary
+      type: object
+      required:
+        - jobId
+        - role
+        - description
+        - additionalDesc
+      properties:
+        jobId:
+          type: string
+        role:
+          type: string
+          description: Job role (Job name)
+        userSavedItem:
+          description: Flag to identify if user has saved this item earlier
+          type: boolean
+        userAppliedItem:
+          description: Flag to identify if user has applied for this item
+          type: boolean
+        description:
+          type: string
+          description: Job description
+        additionalDesc:
+          $ref: '#/components/schemas/AdditionalDesc' 
+        locations:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Location'
+    AdditionalDesc:
+      description: Additional Desc object
+      type: object
+      required:
+        - url
+        - contentType
+      properties:
+        url:        
+          type: string
+        contentType:
+          type: string
+    Location:
+      description: Location object
+      type: object
+      required:
+        - id
+        - city
+        - cityCode
+        - state
+        - country
+        - countryCode
+      properties:
+        id:        
+          type: string
+        city:
+          type: string
+        cityCode:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        countryCode:
+          type: string
+    SelectJob:
+      description: Schema for Job selection
+      type: object
+      required:
+        - companyId
+        - jobId
+        - context
+      properties:
+        companyId:
+          type: string
+        jobs:
+          type: object
+          properties:
+            jobId:
+              type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    SelectedJobResponse:
+      description: Schema for selected job response
+      type: object
+      required:
+        - context
+        - selectedJobs
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        company:
+          $ref: '#/components/schemas/Company'
+        selectedJobs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/SelectedJob'
+    SelectedJob:
+      description: Schema for Selected Job
+      type: object
+      required:
+        - jobId
+        - role
+        - city
+      properties:
+        jobId:
+          type: string
+        role:
+          type: string
+          description: Job role
+        description:
+          type: string
+          description: Job description
+        additionalDesc:
+          $ref: '#/components/schemas/AdditionalDesc' 
+        locations:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Location'
+        fulfillmentCategory:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/JobFulfillmentCategory'
+        educationalQualifications:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/EducationalQualification'
+        workExperience:
+          type: object
+          required:
+            - key
+            - qualification
+          properties:
+            key:
+              description: key will be Work Experience
+              type: string
+            experience:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/WorkExperience'
+        responsibilities:
+          type: array
+          items:
+            type: string
+        employmentInformation:
+          type: object
+          required:
+            - code
+            - name
+            - employmentInfo
+          properties:
+            code:
+              description: code will be employment-info
+              type: string
+            name:
+              description: name will be Employment Information
+              type: string
+            employmentInfo:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/EmploymentInformation'
+        compensation:
+          type: object
+          required:
+            - code
+            - name
+            - employmentInfo
+          properties:
+            code:
+              description: code will be salary-info
+              type: string
+            name:
+              description: name will be Salary Compensation
+              type: string
+            salaryInfo:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/SalaryInformation'
+        additionalFormUrl:
+          type: string
+          description: Additional form from job provider
+    JobFulfillmentCategory:
+      description: Job Fulfillment category object
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:        
+          type: string
+        type:
+          description: example IN-PERSON, VIRTUAL
+          type: string
+    EducationalQualification:
+          type: object
+          required:
+            - category
+            - qualification
+          properties:
+            category:
+              description: qualification category ie Minimum Educational Qualifications
+              type: string
+            qualification:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/Qualification'
+    Qualification:
+      description: Job education Qualification object
+      type: object
+      required:
+        - value
+      properties:
+        code:      
+          description: qualification code ie degree
+          type: string
+        name:
+          description: qualification name ie Degree
+          type: string
+        value:      
+          description: qualification name ie Masters
+          type: string
+    WorkExperience:
+      description: Work Experience object
+      type: object
+      required:
+        - value
+      properties:
+        code:      
+          description: work experience code ie exp-in-years
+          type: string
+        name:
+          description: work experience name ie Minimum Work Experience
+          type: string
+        value:      
+          description: work experience name ie 8 Years
+          type: string
+    EmploymentInformation:
+      description: Employment Information object
+      type: object
+      required:
+        - value
+      properties:
+        code:      
+          description: code example emp-duration-type
+          type: string
+        name:
+          description: name ie Employment Duration Type
+          type: string
+        value:      
+          description: ie Full Time
+          type: string
+    SalaryInformation:
+      description: Salary Information object
+      type: object
+      required:
+        - value
+      properties:
+        code:      
+          description: code example emp-duration-type
+          type: string
+        name:
+          description: name ie Salary Range
+          type: string
+        value:      
+          description: ie 35 LPA to 65 LPA
+          type: string
+    InitJob:
+      description: Schema for Job initialization
+      type: object
+      required:
+        - context
+        - companyId
+        - jobId
+        - jobApplicantProfile
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        companyId:
+          type: string
+        jobs:
+          type: object
+          properties:
+            jobId:
+              type: string
+              description: jobId
+        jobFulfillments:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobFulfillment' 
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/JobAdditionalFormData'
+    JobFulfillment:
+      description: Schema for Job Fulfillment object
+      type: object
+      required:
+        - JobFulfillmentCategoryId
+        - jobApplicantProfile
+      properties:
+        JobFulfillmentCategoryId:
+          type: string
+          description: JobFulfillmentCategoryId
+        jobApplicantProfile:
+          $ref: '#/components/schemas/JobApplicantProfile'
+    JobApplicantProfile:
+      description: Schema for Job Applicant Profile
+      type: object
+      required:
+        - name
+        - contact
+      properties:
+        name:
+          type: string
+          description: User full name
+        languages:
+          type: array
+          items:
+            type: string
+        profileUrl:
+          type: string
+          description: User full name
+        creds:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredential'
+        skills:
+          type: array
+          items:
+            type: string
+    UserCredential:
+      description: User Credential object
+      type: object
+      required:
+        - url
+        - type
+      properties:
+        url:     
+          description: Location for user document
+          type: string
+        type:
+          description: Type of document
+          type: string
+    JobAdditionalFormData:
+          type: object
+          properties:
+            formInputKey:
+              description: Additional form key
+              type: string
+            formInputValue:
+              description: Additional form value for key
+              type: string
+    InitJobResponse:
+      description: Schema for init job response
+      type: object
+      required:
+        - context
+        - company
+        - initiatedJobs
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        company:
+          $ref: '#/components/schemas/Company'
+        initiatedJobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/initiatedJobs'
+        jobFulfillments:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobFulfillment'
+        additionalFormUrl:
+          type: string
+          description: Additional form from job provider
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/JobAdditionalFormData'
+    initiatedJobs:
+      description: Schema for initiated Job
+      type: object
+      required:
+        - jobId
+        - role
+        - city
+      properties:
+        jobId:
+          type: string
+        role:
+          type: string
+          description: Job role
+        description:
+          type: string
+          description: Job description
+        additionalDesc:
+          $ref: '#/components/schemas/AdditionalDesc' 
+        locations:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Location'
+        educationalQualifications:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/EducationalQualification'
+        workExperience:
+          type: object
+          required:
+            - key
+            - qualification
+          properties:
+            key:
+              description: key will be Work Experience
+              type: string
+            experience:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/WorkExperience'
+        responsibilities:
+          type: array
+          items:
+            type: string
+        employmentInformation:
+          type: object
+          required:
+            - code
+            - name
+            - employmentInfo
+          properties:
+            code:
+              description: code will be employment-info
+              type: string
+            name:
+              description: name will be Employment Information
+              type: string
+            employmentInfo:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/EmploymentInformation'
+        compensation:
+          type: object
+          required:
+            - code
+            - name
+            - employmentInfo
+          properties:
+            code:
+              description: code will be salary-info
+              type: string
+            name:
+              description: name will be Salary Compensation
+              type: string
+            salaryInfo:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/SalaryInformation'
+    ConfirmJobRequest:
+      description: Schema for Job confirm request
+      type: object
+      required:
+        - jobId
+        - context
+        - userProfile
+      properties:
+        jobId:
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+        confirmation:
+          $ref: '#/components/schemas/JobFulfillment'
+    ConfirmJobResponse:
+      description: Schema for confirmed job response
+      type: object
+      required:
+        - context
+        - applicationId
+        - company
+        - confirmedJob
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        applicationId:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        confirmedJobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfirmedJob'
+        jobFulfillments:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobFulfillment'
+        additionalFormUrl:
+          type: string
+          description: Additional form from job provider
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/JobAdditionalFormData'
+    ConfirmedJob:
+      description: Schema for confirmed Job
+      type: object
+      required:
+        - jobId
+        - role
+        - city
+      properties:
+        jobId:
+          type: string
+        role:
+          type: string
+          description: Job role
+        description:
+          type: string
+          description: Job description
+        additionalDesc:
+          $ref: '#/components/schemas/AdditionalDesc' 
+        locations:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Location'
+        educationalQualifications:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/EducationalQualification'
+        workExperience:
+          type: object
+          required:
+            - key
+            - qualification
+          properties:
+            key:
+              description: key will be Work Experience
+              type: string
+            experience:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/WorkExperience'
+        responsibilities:
+          type: array
+          items:
+            type: string
+        employmentInformation:
+          type: object
+          required:
+            - code
+            - name
+            - employmentInfo
+          properties:
+            code:
+              description: code will be employment-info
+              type: string
+            name:
+              description: name will be Employment Information
+              type: string
+            employmentInfo:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/EmploymentInformation'
+        compensation:
+          type: object
+          required:
+            - code
+            - name
+            - employmentInfo
+          properties:
+            code:
+              description: code will be salary-info
+              type: string
+            name:
+              description: name will be Salary Compensation
+              type: string
+            salaryInfo:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/SalaryInformation'
+    JobStatusRequest:
+      description: Schema for Job selection
+      type: object
+      required:
+        - applicationId
+        - context
+      properties:
+        applicationId:
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    JobStatusResponse:
+      description: Schema for job status response
+      type: object
+      required:
+        - context
+        - applicationId
+        - company
+        - confirmedJob
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        applicationId:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        confirmedJobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfirmedJob'
+        jobFulfillments:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobStatusFulfillment'
+        additionalFormUrl:
+          type: string
+          description: Additional form from job provider
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/JobAdditionalFormData'
+    JobStatusFulfillment:
+      description: Schema for Job status Fulfillment object
+      type: object
+      required:
+        - JobFulfillmentCategoryId
+        - jobApplicantProfile
+        - aaa
+      properties:
+        JobFulfillmentCategoryId:
+          type: string
+          description: JobFulfillmentCategoryId
+        jobApplicantProfile:
+          $ref: '#/components/schemas/JobApplicantProfile'
+        jobStatus:
+          $ref: '#/components/schemas/JobStatus'
+    JobStatus:
+      description: Schema for Job status object
+      type: object
+      required:
+        - status
+        - statusCode
+      properties:
+        status:
+          type: string
+          description: status
+        statusCode:
+          type: string
+          description: status code
+    SearchMentorshipRequest:
+      description: Schema for Mentorship search object
+      type: object
+      required:
+        - loggedInUserEmail
+      properties:
+        loggedInUserEmail:
+          description: loggedin user email to get user items
+          type: string
+        sessionTitle:
+          type: object
+          properties: 
+            key:
+              type: string
+        mentor:
+          type: object
+          properties: 
+            name:
+              type: string
+    MentorshipResults:
+      description: Schema for searched job results/response
+      type: object
+      required:
+        - context
+        - mentorshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        mentorshipProviders:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/MentorshipProvider'
+    MentorshipProvider:
+      description: Mentorship provider object
+      type: object
+      required:
+        - id
+        - code
+        - name
+        - description
+        - mentorships
+      properties:
+        id:
+          description: Mentorship provider id
+          type: string
+        code:
+          description: Mentorship provider code
+          type: string
+        name:
+          description: Mentorship provider name
+          type: string
+        description:
+          description: Mentorship provider description
+          type: string
+        mentorships:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Mentorship'
+    Mentorship:
+      description: Mentorship Item object
+      type: object
+      required:
+        - id
+        - category
+        - name
+        - description
+      properties:
+        id:
+          description: Mentorship id / item id
+          type: string
+        code:
+          description: Mentorship code
+          type: string
+        name:
+          description: Mentorship name
+          type: string
+        description:
+          description: Mentorship description
+          type: string
+        longDescription:
+          description: Mentorship long description
+          type: string
+        imageLocations:
+          description: Mentorship Image
+          type: array
+          items:
+            type: string
+        categories:
+          description: Mentorship categories
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/MentorshipCategory'
+        available:
+          description: Mentorships available
+          type: integer
+        allocated:
+          description: Mentorships allocated
+          type: integer
+        price:
+          description: Mentorship price
+          type: number
+        mentorshipSessions:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/MentorshipSession'
+        recommendedFor:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/MentorshipRecommendation'
+    MentorshipCategory:
+      description: MentorSession object
+      type: object
+      required:
+        - id
+        - code
+        - name
+      properties:
+        id:
+          description: Mentorship Category Id
+          type: string
+        code:
+          description: Mentorship Category code
+          type: string
+        name:
+          description: Mentorship Category name
+          type: string
+    MentorshipSession:
+      description: MentorSession object
+      type: object
+      required:
+        - id
+        - language
+        - type
+        - mentor
+      properties:
+        id:
+          description: Session Fulfillments Id
+          type: string
+        userSavedItem:
+          description: Flag to identify if user has saved this item earlier
+          type: boolean
+        userAppliedItem:
+          description: Flag to identify if user has applied for this item
+          type: boolean
+        language:
+          description: Session language
+          type: string
+        timingStart:
+          description: Session start date
+          type: string
+        timingEnd:
+          description: Session end date
+          type: string
+        type:
+          description: Session type (ONLINE)
+          type: string
+        status:
+          description: Session status (Live)
+          type: string
+        timezone:
+          description: Session timezone (Asia/Calcutta)
+          type: string
+        mentor:
+          $ref: '#/components/schemas/Mentor'
+    MentorshipRecommendation:
+      description: Mentorship recommendation object
+      type: object
+      required:
+        - recommendationForCode
+        - recommendationForName
+      properties:
+        recommendationForCode:
+          description: Mentorship recommendationForCode
+          type: string
+        recommendationForName:
+          description: Mentorship recommendationForName
+          type: string
+    Mentor:
+      description: Mentor object
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: Mentor id
+          type: string
+        name:
+          description: Mentor name
+          type: string
+        gender:
+          description: Mentor gender - not listed in schema
+          type: string
+        image:
+          description: Mentor image link - not listed in schema
+          type: string
+        rating:
+          description: Mentor rating - not listed in schema
+          type: string
+        aboutMentor:
+          description: About Mentor
+          type: string
+        professionalExperience:
+          description: Mentor professional experience ie Lead Developer | Technical Advisor - NexGen Innovations
+          type: string
+        qualification:
+          description: Mentor qualification
+          type: string
+        experience:
+          description: Mentor experience
+          type: string
+        totalMeetings:
+          description: Mentor total meetings
+          type: string
+        specialisation:
+          description: Mentor specialisation
+          type: string
+    SelectMentorshipRequest:
+      description: Schema for mentorship selection request
+      type: object
+      required:
+        - mentorshipId
+        - context
+      properties:
+        mentorshipId:
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    SelectMentorshipResponse:
+      description: Schema for Mentorship on select 
+      type: object
+      required:
+        - context
+        - mentorshipProvider
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        mentorshipProvider:
+          $ref: '#/components/schemas/MentorshipProvider'
+    InitMentorshipRequest:
+      description: Schema for Mentorship init request
+      type: object
+      required:
+        - mentorshipId
+        - mentorshipSessionId
+        - context
+        - billing
+      properties:
+        mentorshipId:
+          description: Mentorship id
+          type: string
+        mentorshipSessionId:
+          description: Session id
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+        billing:
+          $ref: '#/components/schemas/MentorshipBilling'
+    InitMentorshipResponse:
+      description: Schema for Mentorship init request
+      type: object
+      required:
+        - context
+        - mentorshipProvider
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        mentorshipProvider:
+          $ref: '#/components/schemas/MentorshipProvider'
+    ConfirmMentorshipRequest:
+      description: Schema for Mentorship confirmation request
+      type: object
+      required:
+        - mentorshipId
+        - context
+        - billing
+      properties:
+        mentorshipId:
+          description: mentorshipId
+          type: string
+        mentorshipSessionId:
+          description: mentorshipSessionId
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+        billing:
+          $ref: '#/components/schemas/MentorshipBilling'
+    MentorshipBilling:
+      description: Mentorship billing object
+      type: object
+      required:
+        - name
+        - phone
+        - email
+        - time
+      properties:
+        name:       
+          description: Name
+          type: string
+        phone:
+          description: Phone number
+          type: string
+        email:
+          description: Email
+          type: string
+        time:
+          type: object
+          properties:
+            timezone:
+              type: string
+    ConfirmMentorshipResponse:
+      description: Schema for Mentorship on confirm response
+      type: object
+      required:
+        - mentorshipApplicationId
+        - context
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        mentorshipApplicationId:
+          description: Mentorship application id
+          type: string
+        mentorshipSession:
+          $ref: '#/components/schemas/ConfirmedMentorshipSession'
+    ConfirmedMentorshipSession:
+      description: MentorSession object
+      type: object
+      required:
+        - id
+        - language
+        - type
+        - mentor
+      properties:
+        id:
+          description: Session Fulfillments Id
+          type: string
+        sessionJoinLinks:
+          description: Mentorship session url to join session
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/MentorshipSessionJoinLink'
+        language:
+          description: Session language
+          type: string
+        timingStart:
+          description: Session start date
+          type: string
+        timingEnd:
+          description: Session end date
+          type: string
+        type:
+          description: Session type (ONLINE)
+          type: string
+        status:
+          description: Session status (Live)
+          type: string
+        timezone:
+          description: Session timezone (Asia/Calcutta)
+          type: string
+        mentor:
+          $ref: '#/components/schemas/Mentor'
+    MentorshipSessionJoinLink:
+      description: Mentorship Join Link object
+      type: object
+      required:
+        - code
+        - link
+      properties:
+        id:
+          description: session join link code
+          type: string
+        link:
+          description: session join link
+          type: string
+    MentorshipStatusRequest:
+      description: Schema for Mentorship status request
+      type: object
+      required:
+        - context
+      properties:
+        mentorshipApplicationId:
+          description: Mentorship application id
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    MentorshipStatusResponse:
+      description: Schema for Mentorship status request
+      type: object
+      required:
+        - context
+        - mentorshipApplicationId
+        - mentorshipApplicationStatus
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        mentorshipApplicationId:
+          description: Mentorship application id
+          type: string
+        mentorshipApplicationStatus:
+          description: Mentorship application status
+          type: string
+        mentorshipProvider:
+          $ref: '#/components/schemas/MentorshipProvider'
+    MentorshipCancelRequest:
+      description: Schema for Mentorship cancel request
+      type: object
+      required:
+        - context
+      properties:
+        mentorshipApplicationId:
+          description: Mentorship application id
+          type: string
+        mentorshipCancellationReasonId:
+          description: Mentorship cancellation reason id ie 12
+          type: integer
+        mentorshipCancellationReason:
+          description: Mentorship cancellation reason
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    MentorshipCancelResponse:
+      description: Schema for Mentorship cancel response
+      type: object
+      required:
+        - context
+      properties:
+        mentorshipApplicationId:
+          description: Mentorship application id
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    SearchScholarship:
+      description: Schema for Scholarship search object
+      type: object
+      required:
+        - loggedInUserEmail
+      properties:
+        loggedInUserEmail:
+          description: loggedin user email to get user items
+          type: string
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            type: object
+            properties: 
+              code:
+                type: string
+        gender:
+          type: string
+        finStatus:
+          type: object
+          properties: 
+            family_income:
+              type: string
+        casteCategory:
+          type: array
+          items:
+            type: object
+            properties: 
+              caste:
+                type: string
+    ScholarshipResults:
+      description: Schema for searched scholarship results/response
+      type: object
+      required:
+        - context
+        - scholarshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipProviders:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ScholarshipProvider'
+    ScholarshipProvider:
+      description: Scholarship provider object
+      type: object
+      required:
+        - id
+        - name
+        - scholarships
+      properties:
+        id:
+          description: Scholarship provider id
+          type: string
+        name:
+          description: Scholarship provider name
+          type: string
+        description:
+          description: Scholarship description
+          type: string
+        scholarships:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Scholarship'
+    Scholarship:
+      description: Scholarship Item object
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          description: Scholarship id / item id
+          type: string
+        name:
+          description: Scholarship name
+          type: string
+        userSavedItem:
+          description: Flag to identify if user has saved this item earlier
+          type: boolean
+        userAppliedItem:
+          description: Flag to identify if user has applied for this item
+          type: boolean
+        description:
+          description: Scholarship description
+          type: string
+        amount:
+          $ref: '#/components/schemas/ScholarshipAmount'
+        category:
+          $ref: '#/components/schemas/ScholarshipCategory'
+        scholarshipDetails:
+          $ref: '#/components/schemas/ScholarshipDetails'
+    ScholarshipAmount:
+      description: Scholarship Amount
+      type: object
+      required:
+        - amount
+        - currency
+      properties:
+        amount:       
+          description: amount
+          type: number
+        currency:
+          description: currency
+          type: string
+    ScholarshipCategory:
+      description: Scholarship Category
+      type: object
+      required:
+        - id
+        - name
+        - code
+      properties:
+        id:
+          description: Scholarship category id
+          type: string
+        name:
+          description: Scholarship category name
+          type: string
+        code:
+          description: Scholarship category code
+          type: string
+    ScholarshipDetails:
+      description: Scholarship fulfillment object
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          description: Scholarship id / fulfillment id
+          type: string
+        type:
+          description: fulfillment type
+          type: string
+        applicationStartDate:
+          description: application start date
+          type: string
+        applicationEndDate:
+          description: application end date
+          type: string
+        supportContact:
+          $ref: '#/components/schemas/SupportContact'
+    SupportContact:
+      description: Support contact
+      type: object
+      required:
+        - phone
+        - email
+      properties:
+        name:
+          description: contact person name
+          type: string
+        phone:
+          description: contact person phone
+          type: string
+        email:
+          description: contact person email
+          type: string
+    SelectScholarship:
+      description: Schema for scholarship selection
+      type: object
+      required:
+        - scholarshipProiderId
+        - scholarshipId
+        - context
+      properties:
+        scholarshipProiderId:
+          description: Scholarship provider id
+          type: string
+        scholarshipId:
+          description: Scholarship item id
+          type: string
+        scholarshipDetailsId:
+          description: Scholarship fulfillment id
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    SelectScholarshipResponse:
+      description: Schema for selected scholarship
+      type: object
+      required:
+        - context
+        - scholarshipProvider
+        - additionalFormData
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipProvider:
+          $ref: '#/components/schemas/ScholarshipProvider'
+        additionalForm:
+          $ref: '#/components/schemas/ScholarshipAdditionalForm'
+        academicQualificationsCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AcademicQualification'
+        finStatusCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/FinancialStatus'
+        benefits:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Benefit'
+    ScholarshipAdditionalForm:
+      description: Scholarship additional form
+      type: object
+      required:
+        - formUrl
+      properties:
+        formUrl:
+          description: additional form url
+          type: string
+        formMimeType:
+          description: additional form mimeType
+          type: string
+        submissionId:
+          description: Id returned as part of xinupt form submission
+          type: string
+        data:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ScholarshipAdditionalFormData'
+    ScholarshipAdditionalFormData:
+      description: Scholarship additional form data
+      type: object
+      properties:
+        formInputKey:
+          description: Additional form key
+          type: string
+        formInputValue:
+          description: Additional form value for key
+          type: string
+    AcademicQualification:
+      description: Academic Qualification
+      type: object
+      required:
+        - code
+        - name
+        - value
+      properties:
+        code:
+          description: Academic qualification code
+          type: string
+        name:
+          description: Academic qualification name
+          type: string
+        value:
+          description: Academic qualification value
+          type: string
+    FinancialStatus:
+      description: Financial Status Criteria
+      type: object
+      required:
+        - code
+        - name
+        - value
+      properties:
+        code:
+          description: Academic qualification code
+          type: string
+        name:
+          description: Academic qualification name
+          type: string
+        value:
+          description: Academic qualification value
+          type: string
+    Benefit:
+      description: Benefits
+      type: object
+      required:
+        - code
+        - name
+        - value
+      properties:
+        code:
+          description: Academic qualification code
+          type: string
+        name:
+          description: Academic qualification name
+          type: string
+        value:
+          description: Academic qualification value
+          type: string
+    InitScholarshipRequest:
+      description: Schema for scholarship init
+      type: object
+      required:
+        - context
+        - scholarshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipProvider:
+          $ref: '#/components/schemas/InitScholarshipProvider'
+    InitScholarshipProvider:
+      description: Scholarship provider object
+      type: object
+      required:
+        - id
+        - name
+        - scholarships
+      properties:
+        id:
+          description: Scholarship provider id
+          type: string
+        name:
+          description: Scholarship provider name
+          type: string
+        description:
+          description: Scholarship provider description
+          type: string
+        scholarships:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/InitScholarship'
+    InitScholarship:
+      description: Scholarship Item object
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          description: Scholarship id / item id
+          type: string
+        name:
+          description: Scholarship name
+          type: string
+        description:
+          description: Scholarship description
+          type: string
+        categoryId:
+          description: Category Id
+          type: string
+        amount:
+          $ref: '#/components/schemas/ScholarshipAmount'
+        scholarshipDetails:
+          $ref: '#/components/schemas/InitScholarshipDetails'
+        additionalForm:
+          $ref: '#/components/schemas/ScholarshipAdditionalForm'
+        academicQualificationsCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AcademicQualification'
+        finStatusCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/FinancialStatus'
+        benefits:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Benefit'
+    InitScholarshipDetails:
+      description: Scholarship init details object
+      type: object
+      required:
+        - id
+        - type
+        - scholarshipRequestor
+      properties:
+        id:
+          description: fulfillment id
+          type: string
+        type:
+          description: scholarship type name
+          type: string
+        applicationStartDate:
+          description: application start date
+          type: string
+        applicationEndDate:
+          description: application end date
+          type: string
+        supportContact:
+          $ref: '#/components/schemas/SupportContact'
+        scholarshipRequestor:
+          $ref: '#/components/schemas/InitScholarshipRequestor'
+    InitScholarshipRequestor:
+      description: Scholarship requestor object
+      type: object
+      required:
+        - id
+        - name
+        - gender
+      properties:
+        name:
+          description: Requestor name
+          type: string
+        phone:
+          description: Requestor phone
+          type: string
+        address:
+          description: Requestor address
+          type: string
+        needOfScholarship:
+          description: Purpose of scholarship
+          type: string
+        docUrl:
+          description: Additional document url
+          type: string
+    ScholarshipRequestorContactDELETE:
+      description: Scholarship Requestor Contact
+      type: object
+      required:
+        - address
+        - addressFormat
+      properties:
+        address:
+          description: contact person address
+          type: string
+        addressFormat:
+          description: contact person address format
+          type: string
+    InitScholarshipResponse:
+      description: Schema for scholarship init response
+      type: object
+      required:
+        - context
+        - scholarshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipProvider:
+          $ref: '#/components/schemas/InitScholarshipResponseProvider'
+    InitScholarshipResponseProvider:
+      description: Scholarship provider object
+      type: object
+      required:
+        - id
+        - name
+        - categoryId
+        - scholarships
+      properties:
+        id:
+          description: Scholarship provider id
+          type: string
+        name:
+          description: Scholarship provider name
+          type: string
+        descriptor:
+          description: Scholarship provider descriptor
+          type: string
+        scholarships:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/InitResponseScholarship'
+    InitResponseScholarship:
+      description: Scholarship Item response object
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          description: Scholarship id / item id
+          type: string
+        name:
+          description: Scholarship name
+          type: string
+        description:
+          description: Scholarship description
+          type: string
+        categoryId:
+          description: Scholarship category id
+          type: string
+        amount:
+          $ref: '#/components/schemas/ScholarshipAmount'
+        scholarshipDetails:
+          $ref: '#/components/schemas/InitResponseScholarshipDetails'
+        additionalForm:
+          $ref: '#/components/schemas/ScholarshipAdditionalForm'
+        academicQualificationsCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AcademicQualification'
+        finStatusCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/FinancialStatus'
+        benefits:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Benefit'
+    InitResponseScholarshipDetails:
+      description: Scholarship init response details object
+      type: object
+      required:
+        - id
+        - type
+        - scholarshipRequestor
+      properties:
+        id:
+          description: fulfillment id
+          type: string
+        type:
+          description: scholarship type name
+          type: string
+        applicationStartDate:
+          description: application start date
+          type: string
+        applicationEndDate:
+          description: application end date
+          type: string
+        supportContact:
+          $ref: '#/components/schemas/SupportContact'
+        scholarshipRequestor:
+          $ref: '#/components/schemas/InitScholarshipRequestor'
+    ConfirmScholarshipRequest:
+      description: Schema for scholarship confirm request
+      type: object
+      required:
+        - context
+        - scholarshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipProvider:
+          $ref: '#/components/schemas/InitScholarshipResponseProvider'
+    ConfirmScholarshipResponse:
+      description: Schema for scholarship confirm response
+      type: object
+      required:
+        - context
+        - scholarshipApplicationId
+        - scholarshipApplicationStatus
+        - scholarshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipApplicationId:
+          type: string
+        scholarshipApplicationStatus:
+          type: string
+        scholarshipProvider:
+          $ref: '#/components/schemas/ConfirmScholarshipResponseProvider'
+    ConfirmScholarshipResponseProvider:
+      description: Scholarship provider object
+      type: object
+      required:
+        - id
+        - name
+        - scholarships
+      properties:
+        id:
+          description: Scholarship provider id
+          type: string
+        name:
+          description: Scholarship provider name
+          type: string
+        description:
+          description: Scholarship provider description
+          type: string
+        scholarships:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ConfirmResponseScholarship'
+    ConfirmResponseScholarship:
+      description: Scholarship Item response object
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          description: Scholarship id / item id
+          type: string
+        name:
+          description: Scholarship name
+          type: string
+        description:
+          description: Scholarship description
+          type: string
+        categoryId:
+          description: Scholarship category id
+          type: string
+        amount:
+          $ref: '#/components/schemas/ScholarshipAmount'
+        scholarshipDetails:
+          $ref: '#/components/schemas/ConfirmResponseScholarshipDetails'
+        additionalForm:
+          $ref: '#/components/schemas/ScholarshipAdditionalForm'
+        academicQualificationsCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AcademicQualification'
+        finStatusCriteria:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/FinancialStatus'
+        benefits:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Benefit'
+    ConfirmResponseScholarshipDetails:
+      description: Scholarship confirm response details object
+      type: object
+      required:
+        - id
+        - type
+        - scholarshipStatus
+      properties:
+        id:
+          description: fulfillment id
+          type: string
+        type:
+          description: scholarship type name
+          type: string
+        applicationStartDate:
+          description: application start date
+          type: string
+        applicationEndDate:
+          description: application end date
+          type: string
+        supportContact:
+          $ref: '#/components/schemas/SupportContact'
+        scholarshipRequestor:
+          $ref: '#/components/schemas/InitScholarshipRequestor'
+    ScholarshipStatusRequest:
+      description: Schema for scholarship status request
+      type: object
+      required:
+        - scholarshipApplicationId
+        - context
+      properties:
+        scholarshipApplicationId:
+          description: scholarship application id
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    ScholarshipStatusResponse:
+      description: Schema for scholarship status response
+      type: object
+      required:
+        - context
+        - scholarshipApplicationId
+        - scholarshipApplicationStatus
+        - scholarshipProviders
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        scholarshipApplicationId:
+          type: string
+        scholarshipApplicationStatus:
+          type: string
+        scholarshipProvider:
+          $ref: '#/components/schemas/ConfirmScholarshipResponseProvider'
+    SearchCourseRequest:
+      description: Schema for Course search object
+      type: object
+      required:
+        - loggedInUserEmail
+      properties:
+        loggedInUserEmail:
+          description: loggedin user email to get user items
+          type: string
+        category:
+          description: Course category name ie School
+          type: string
+        provider:
+          description: provider institute/body/organization name
+          type: string
+        searchTitle:
+          description: This can be used for course name or instructor name search
+          type: string
+        deepSearch:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CourseDeepSearch'
+    CourseDeepSearch:
+      description: Course search criteria for deep search object
+      type: object
+      properties:
+        searchCriteria:
+          description: Deep search area ie Course Description Meta Data
+          type: string
+        searchParameters:
+          description: provider institute/body/organization name
+          type: array
+          items:
+            type: object
+            properties: 
+              name:
+                description: Deep search key name
+                type: string
+              value:
+                description: Deep search key value
+                type: string
+    CourseResults:
+      description: Schema for searched course results
+      type: object
+      required:
+        - context
+        - CourseProvider
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        courses:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Course'
+    Course:
+      description: Course Item object
+      type: object
+      required:
+        - id
+        - name
+        - imageLocations
+        - duration
+        - provider
+      properties:
+        id:
+          description: Course id / item id
+          type: string
+        name:
+          description: Course name
+          type: string
+        userSavedItem:
+          description: Flag to identify if user has saved this item earlier
+          type: boolean
+        userAppliedItem:
+          description: Flag to identify if user has applied for this item
+          type: boolean
+        description:
+          description: Course description
+          type: string
+        imageLocations:
+          description: Course Image
+          type: array
+          items:
+            type: string
+        duration:
+          description: Course duration
+          type: string
+        provider:
+          $ref: '#/components/schemas/CourseProvider'
+        category:
+          $ref: '#/components/schemas/CourseCategory'
+    CourseProvider:
+      description: Course provider object
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          description: Course provider id
+          type: string
+        name:
+          description: Course provider name
+          type: string
+        description:
+          description: Course provider description - Currently not provided by BPP
+          type: string
+    CourseCategory:
+      description: Course category object
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: Course Category Id
+          type: string
+        name:
+          description: Course Category name
+          type: string
+    SelectCourseRequest:
+      description: Schema for course selection request
+      type: object
+      required:
+        - courseId
+        - context
+      properties:
+        courseId:
+          type: string
+        courseProviderId:
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    SelectCourseResponse:
+      description: Schema for Course on select response
+      type: object
+      required:
+        - context
+        - Course
+        - courseDetails
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        course:
+          $ref: '#/components/schemas/Course'
+        courseDetails:
+          $ref: '#/components/schemas/CourseDetails'
+        additionalFormUrl:
+          type: string
+          description: Additional form from course provider
+    CourseDetails:
+      description: Course details object
+      type: object
+      required:
+        - price
+        - startDate
+        - endDate
+        - rating
+        - credits
+        - instructors
+        - offeringInstitue
+        - courseUrl
+        - enrollmentEndDate
+      properties:
+        price:
+          description: Course price
+          type: string
+        startDate:
+          description: Course start date
+          type: string
+        endDate:
+          description: Course end date
+          type: string
+        rating:
+          description: Course rating
+          type: string
+        credits:
+          description: credits for course
+          type: string
+        instructors:
+          description: Instructor name
+          type: string
+        offeringInstitue:
+          description: offering Institue
+          type: string
+        courseUrl:
+          description: Course url
+          type: string
+        enrollmentEndDate:
+          description: Enrollment End Date
+          type: string
+        eligibility:
+          description: Course eligibility
+          type: array
+          items:
+            type: object
+            properties: 
+              name:
+                type: string
+              value:
+                type: string
+        courseHighlights:
+          description: Course highlights
+          type: array
+          items:
+            type: object
+            properties: 
+              name:
+                type: string
+              value:
+                type: string
+        prerequisites:
+          description: Course prerequisites
+          type: array
+          items:
+            type: object
+            properties: 
+              name:
+                type: string
+              value:
+                type: string
+    InitCourse:
+      description: Schema for Course initialization
+      type: object
+      required:
+        - context
+        - courseId
+        - applicantProfile
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        courseId:
+          type: string
+        CourseProviderId:
+          type: string
+        applicantProfile:
+          $ref: '#/components/schemas/CourseApplicantProfile' 
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                  - $ref: '#/components/schemas/CourseAdditionalFormData'
+    CourseApplicantProfile:
+      description: Schema for course Fulfillment/applicant object
+      type: object
+      required:
+        - name
+        - email
+        - contact
+      properties:
+        name:
+          type: string
+          description: User full name
+        email:
+          type: string
+          description: User email
+        contact:
+          type: string
+          description: User contact number
+    CourseAdditionalFormData:
+      type: object
+      properties:
+        formInputKey:
+          description: Additional form key
+          type: string
+        formInputValue:
+          description: Additional form value for key
+          type: string
+    InitCourseResponse:
+      description: Schema for init course response
+      type: object
+      required:
+        - context
+        - course
+        - applicantProfile
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        course:
+          $ref: '#/components/schemas/Course'
+        courseDetails:
+          $ref: '#/components/schemas/CourseDetails'
+        applicantProfile:
+          $ref: '#/components/schemas/CourseApplicantProfile' 
+        additionalFormUrl:
+          type: string
+          description: Additional form from course provider
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/CourseAdditionalFormData'
+    ConfirmCourseRequest:
+      description: Schema for Course confirmation
+      type: object
+      required:
+        - context
+        - courseId
+        - CourseProviderId
+        - jobApplicantProfile
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        courseId:
+          type: string
+        CourseProviderId:
+          type: string
+        applicantProfile:
+          $ref: '#/components/schemas/CourseApplicantProfile'
+    ConfirmCourseResponse:
+      description: Schema for confirmed course response
+      type: object
+      required:
+        - context
+        - applicationId
+        - course
+        - applicantProfile
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        applicationId:
+          type: string
+        applicationState:
+          type: string
+        course:
+          $ref: '#/components/schemas/Course'
+        applicantProfile:
+          $ref: '#/components/schemas/CourseApplicantProfile' 
+        additionalFormUrl:
+          type: string
+          description: Additional form from course provider
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/CourseAdditionalFormData'  
+    CourseStatusRequest:
+      description: Schema for course status request
+      type: object
+      required:
+        - applicationId
+        - context
+      properties:
+        applicationId:
+          type: string
+        context:
+          $ref: '#/components/schemas/Context'
+    CourseStatusResponse:
+      description: Schema for course status response
+      type: object
+      required:
+        - context
+        - applicationId
+        - course
+        - applicantProfile
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        applicationId:
+          type: string
+        course:
+          $ref: '#/components/schemas/Course'
+        applicantProfile:
+          $ref: '#/components/schemas/CourseApplicantProfile' 
+        additionalFormUrl:
+          type: string
+          description: Additional form from course provider
+        additionalFormData:
+          type: object
+          properties:
+            submissionId:
+              description: Id returned as part of xinupt form submission
+              type: string
+            data:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/CourseAdditionalFormData'
+    Context:
+      description: schema context object
+      type: object
+      required:
+        - transactionId
+        - messageId
+        - bppId
+        - bppUri
+      properties:
+        transactionId:
+          type: string
+        messageId:
+          type: string
+        bppId:
+          type: string
+        bppUri:
+          type: string
+    Error:
+      type: object
+      required:
+        - type
+        - code
+        - message
+        - path
+      properties:
+        code:
+          description: DSEP specific error code
+          type: string
+        message:
+          description: Human readable error message from dsep API
+          type: string
+        data:
+          description: Additional error data
+          type: object
+        type:
+          description: Error type
+          type: string
+        path:
+          description: Path to json schema generating the error. Used only during json schema validation errors
+          type: string
+    NetworkError:
+          description: Error message
+          type: object
+          properties:
+            code:
+              description: Error code
+              type: integer
+            message:
+              description: Error message
+              type: string
+            data:
+              description: Additional error data
+              type: object
+            type:
+              description: Error type
+              type: string
+    Acknowledgement:
+      type: object
+      required:
+        - context
+        - message
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        message:
+          description: Acknowledgement message
+          type: object
+          properties:
+            ack:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - ACK
+                    - NACK
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+security:
+  - ApiKey: []
+servers:
+  - url: https://api.dsep.client.becknprotocol.io/v1
+    variables: {}
+ 

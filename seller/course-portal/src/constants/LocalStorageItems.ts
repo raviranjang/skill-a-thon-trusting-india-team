@@ -1,0 +1,5 @@
+export const AFFINIDI_WALLET_KEY = 'aff_wall_key'
+export const LOGIN_TOKEN = 'token'
+export const APPLICANT_NAME = 'applicantname'
+export const COURSE_NAME = 'coursename'
+export const SHARED_VC = 'shared_vc_key'

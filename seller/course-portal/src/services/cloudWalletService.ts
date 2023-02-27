@@ -1,5 +1,6 @@
 import OperationError from '../constants/OperationError'
 import HttpClient from './http_client'
+import env from '../constants/env'
 
 export interface PasswordLessLoginType {
   loginToken: string
@@ -14,15 +15,15 @@ export interface ConfirmPasswordResponse {
 
 class CloudWalletApi extends HttpClient {
   constructor() {
-    console.log('ENV_VARIABLES', process.env)
-    super(process.env.REACT_APP_CLOUD_WALLET_URL || '')
+    console.log('ENV_VARIABLES', env)
+    super(env.REACT_APP_CLOUD_WALLET_URL || '')
     this.interceptRequest({})
     this.interceptResponse()
   }
 
   protected interceptRequest(headers: Record<string, any>): void {
     super.interceptRequest({
-      'Api-Key': process.env.REACT_APP_CLOUD_WALLET_API_KEY || headers.API_KEY || '',
+      'Api-Key': env.REACT_APP_CLOUD_WALLET_API_KEY || headers.API_KEY || '',
     })
   }
 

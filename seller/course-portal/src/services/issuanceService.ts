@@ -1,8 +1,9 @@
 import HttpClient from './http_client'
+import env from '../constants/env'
 
 class IssuanceService extends HttpClient {
   constructor() {
-    super(process.env.REACT_APP_MOCK_ISSUANCE_SERVICE || '')
+    super(env.REACT_APP_MOCK_ISSUANCE_SERVICE || '')
     this.interceptRequest({})
     this.interceptResponse()
   }
@@ -26,7 +27,7 @@ class IssuanceService extends HttpClient {
           jsonSchemaUrl: 'https://schema.affinidi.com/MyBuddyFinalCourseV1-0.json',
           credentialSubject: subject,
           holderDid: did,
-          issuer: process.env.REACT_APP_ISSUER_DID,
+          issuer: env.REACT_APP_ISSUER_DID,
           selfDeclared: true,
         },
         {
@@ -55,7 +56,7 @@ class IssuanceService extends HttpClient {
           jsonSchemaUrl: 'https://schema.affinidi.com/MyBuddyCourseCertificateSunbirdRCV1-0.json',
           credentialSubject: subject,
           holderDid: did,
-          issuer: process.env.REACT_APP_ISSUER_DID,
+          issuer: env.REACT_APP_ISSUER_DID,
           selfDeclared: true,
         },
         {

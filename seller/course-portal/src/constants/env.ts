@@ -1,0 +1,9 @@
+const env = {
+  REACT_APP_CLOUD_WALLET_URL: '**',
+  REACT_APP_CLOUD_WALLET_API_KEY:
+    '**',
+  REACT_APP_MOCK_ISSUANCE_SERVICE: '**',
+  REACT_APP_COURSE_BE_URL: '**',
+  REACT_APP_ISSUER_DID: '**',
+}
+export default env

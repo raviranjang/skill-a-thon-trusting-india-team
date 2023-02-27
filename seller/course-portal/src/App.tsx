@@ -12,7 +12,7 @@ import CourseCertifcates from './containers/Credentials'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/courseportal">
       <Routes>
         <Route path="/" element={<OtpLogin />}></Route>
         <Route path="/create-course" element={<CreateCourseContainer />}></Route>

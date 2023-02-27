@@ -32,9 +32,9 @@ export interface CourseCertificate {
   coursename: string
   applicantname: string
   stepsinvolved: string
-  category: string, 
-  completiondate: string, 
-  skills: string, 
-  courseprovider: string, 
+  category: string
+  completiondate: string
+  skills: string
+  courseprovider: string
   issuingAuthority: string
 }

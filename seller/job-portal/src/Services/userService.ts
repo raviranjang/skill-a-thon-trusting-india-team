@@ -1,10 +1,11 @@
 import axios from "axios";
 import LocalStorage from "../utils/LocalStorage";
+import env from '../helpers/constants'
 
 const UserService = {
   getUser() {
     const { accessToken } = JSON.parse(LocalStorage.getItem('user'))
-    return axios.get(`${process.env.REACT_APP_JOB_PORTAL_BASE_URL}/user`, {
+    return axios.get(`${env.REACT_APP_JOB_PORTAL_BASE_URL}/user`, {
       headers: {
         Authorization: accessToken
       }
@@ -16,7 +17,7 @@ const UserService = {
     organization?: string
   }) {
     const { accessToken } = JSON.parse(LocalStorage.getItem('user'))
-    return axios.post(`${process.env.REACT_APP_JOB_PORTAL_BASE_URL}/user`, data, {
+    return axios.post(`${env.REACT_APP_JOB_PORTAL_BASE_URL}/user`, data, {
       headers: {
         Authorization: accessToken
       }

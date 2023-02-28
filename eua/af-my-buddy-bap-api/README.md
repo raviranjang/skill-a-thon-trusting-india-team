@@ -1,4 +1,4 @@
-# dsep-unified-bap-client
+# My NBuddy BAP API
 
 # to start client
 ```

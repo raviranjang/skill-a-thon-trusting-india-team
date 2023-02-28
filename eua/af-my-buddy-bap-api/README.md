@@ -1,4 +1,4 @@
-# My NBuddy BAP API
+# My Buddy BAP API
 
 # to start client
 ```

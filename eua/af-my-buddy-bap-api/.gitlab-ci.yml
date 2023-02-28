@@ -1,0 +1,9 @@
+include:
+  - project: affinidi/foundational/foundational-pipeline
+    ref: v2.157.5  # Please do not change 'ref' manually. It is updated by automation.
+    file: /stack/backend.yml
+variables:
+  NODE_BUILD_VERSION: ${NODE_16}  # Options: https://gitlab.com/affinidi/foundational/foundational-pipeline/-/blob/main/variables.yml#L7
+  TAA_SMOKE_ENABLED: 'false'
+  SERVICE_SMOKE_ENABLED: 'false'
+  

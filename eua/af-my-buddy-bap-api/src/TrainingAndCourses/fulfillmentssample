@@ -1,0 +1,26 @@
+{
+  "fulfillments": [
+    {
+      "customer": {
+        "person": {
+          "name": "John Doe",
+          "tags": [
+            {
+              "descriptor": {
+                "name": "DID",
+                "code": "DID"
+              },
+              "list": [
+                {
+                  "value": "did:elem:567890-"
+                }
+              ],
+              "display": true
+            }
+          ]
+        }
+      },
+      "tracking": false
+    }
+  ]
+}

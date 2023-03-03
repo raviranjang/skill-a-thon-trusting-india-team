@@ -6,6 +6,43 @@ part of 'job_seeker_api.models.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+NameCode _$NameCodeFromJson(Map<String, dynamic> json) => NameCode(
+      name: json['name'] as String?,
+      code: json['code'] as String?,
+    );
+
+Map<String, dynamic> _$NameCodeToJson(NameCode instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('code', instance.code);
+  return val;
+}
+
+CompanyLocation _$CompanyLocationFromJson(Map<String, dynamic> json) =>
+    CompanyLocation(
+      city: json['city'] as String?,
+    );
+
+Map<String, dynamic> _$CompanyLocationToJson(CompanyLocation instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('city', instance.city);
+  return val;
+}
+
 SearchJob _$SearchJobFromJson(Map<String, dynamic> json) => SearchJob(
       title: json['title'] == null
           ? null
@@ -14,10 +51,7 @@ SearchJob _$SearchJobFromJson(Map<String, dynamic> json) => SearchJob(
           ? null
           : SearchJob$Company.fromJson(json['company'] as Map<String, dynamic>),
       skills: (json['skills'] as List<dynamic>?)
-              ?.map((e) => (e as List<dynamic>)
-                  .map((e) =>
-                      SearchJob$Skills$Item.fromJson(e as Map<String, dynamic>))
-                  .toList())
+              ?.map((e) => e as Object)
               .toList() ??
           [],
     );
@@ -33,14 +67,15 @@ Map<String, dynamic> _$SearchJobToJson(SearchJob instance) {
 
   writeNotNull('title', instance.title?.toJson());
   writeNotNull('company', instance.company?.toJson());
-  writeNotNull('skills',
-      instance.skills?.map((e) => e.map((e) => e.toJson()).toList()).toList());
+  writeNotNull('skills', instance.skills);
   return val;
 }
 
 SearchJobsResponse _$SearchJobsResponseFromJson(Map<String, dynamic> json) =>
     SearchJobsResponse(
-      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      context: json['context'] == null
+          ? null
+          : Context.fromJson(json['context'] as Map<String, dynamic>),
       jobProviderPlatform: json['jobProviderPlatform'] as String?,
       jobResults: (json['jobResults'] as List<dynamic>?)
               ?.map((e) => e as Object)
@@ -49,9 +84,7 @@ SearchJobsResponse _$SearchJobsResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$SearchJobsResponseToJson(SearchJobsResponse instance) {
-  final val = <String, dynamic>{
-    'context': instance.context.toJson(),
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -59,22 +92,34 @@ Map<String, dynamic> _$SearchJobsResponseToJson(SearchJobsResponse instance) {
     }
   }
 
+  writeNotNull('context', instance.context?.toJson());
   writeNotNull('jobProviderPlatform', instance.jobProviderPlatform);
   writeNotNull('jobResults', instance.jobResults);
   return val;
 }
 
 JobResult _$JobResultFromJson(Map<String, dynamic> json) => JobResult(
-      company: Company.fromJson(json['company'] as Map<String, dynamic>),
+      company: json['company'] == null
+          ? null
+          : Company.fromJson(json['company'] as Map<String, dynamic>),
       jobs:
           (json['jobs'] as List<dynamic>?)?.map((e) => e as Object).toList() ??
               [],
     );
 
-Map<String, dynamic> _$JobResultToJson(JobResult instance) => <String, dynamic>{
-      'company': instance.company.toJson(),
-      'jobs': instance.jobs,
-    };
+Map<String, dynamic> _$JobResultToJson(JobResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('company', instance.company?.toJson());
+  writeNotNull('jobs', instance.jobs);
+  return val;
+}
 
 Company _$CompanyFromJson(Map<String, dynamic> json) => Company(
       id: json['id'] as String?,
@@ -2439,7 +2484,9 @@ Map<String, dynamic> _$CourseDeepSearchToJson(CourseDeepSearch instance) {
 
 CourseResults _$CourseResultsFromJson(Map<String, dynamic> json) =>
     CourseResults(
-      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      context: json['context'] == null
+          ? null
+          : Context.fromJson(json['context'] as Map<String, dynamic>),
       courses: (json['courses'] as List<dynamic>?)
               ?.map((e) => e as Object)
               .toList() ??
@@ -2447,9 +2494,7 @@ CourseResults _$CourseResultsFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$CourseResultsToJson(CourseResults instance) {
-  final val = <String, dynamic>{
-    'context': instance.context.toJson(),
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2457,6 +2502,7 @@ Map<String, dynamic> _$CourseResultsToJson(CourseResults instance) {
     }
   }
 
+  writeNotNull('context', instance.context?.toJson());
   writeNotNull('courses', instance.courses);
   return val;
 }
@@ -2979,10 +3025,7 @@ SearchJob$Company _$SearchJob$CompanyFromJson(Map<String, dynamic> json) =>
     SearchJob$Company(
       name: json['name'] as String?,
       locations: (json['locations'] as List<dynamic>?)
-              ?.map((e) => (e as List<dynamic>)
-                  .map((e) => SearchJob$Company$Locations$Item.fromJson(
-                      e as Map<String, dynamic>))
-                  .toList())
+              ?.map((e) => e as Object)
               .toList() ??
           [],
     );
@@ -2997,33 +3040,7 @@ Map<String, dynamic> _$SearchJob$CompanyToJson(SearchJob$Company instance) {
   }
 
   writeNotNull('name', instance.name);
-  writeNotNull(
-      'locations',
-      instance.locations
-          ?.map((e) => e.map((e) => e.toJson()).toList())
-          .toList());
-  return val;
-}
-
-SearchJob$Skills$Item _$SearchJob$Skills$ItemFromJson(
-        Map<String, dynamic> json) =>
-    SearchJob$Skills$Item(
-      name: json['name'] as String?,
-      code: json['code'] as String?,
-    );
-
-Map<String, dynamic> _$SearchJob$Skills$ItemToJson(
-    SearchJob$Skills$Item instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('code', instance.code);
+  writeNotNull('locations', instance.locations);
   return val;
 }
 
@@ -3641,26 +3658,6 @@ Map<String, dynamic> _$Acknowledgement$MessageToJson(
   }
 
   writeNotNull('ack', instance.ack?.toJson());
-  return val;
-}
-
-SearchJob$Company$Locations$Item _$SearchJob$Company$Locations$ItemFromJson(
-        Map<String, dynamic> json) =>
-    SearchJob$Company$Locations$Item(
-      city: json['city'] as String?,
-    );
-
-Map<String, dynamic> _$SearchJob$Company$Locations$ItemToJson(
-    SearchJob$Company$Locations$Item instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('city', instance.city);
   return val;
 }
 

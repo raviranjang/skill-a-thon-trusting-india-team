@@ -1,5 +1,5 @@
 {
-  "name": "dsep-unified-bap-client",
+  "name": "af-my-buddy-bap-api",
   "version": "0.0.1",
   "description": "Client Layer",
   "main": "dist/index.js",

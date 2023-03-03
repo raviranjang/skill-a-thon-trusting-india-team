@@ -1,8 +1,8 @@
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/modules/courses/widgets/applied-courses.widget.dart';
-import 'package:dsep_reference_flutter/modules/courses/widgets/course-list.widget.dart';
-import 'package:dsep_reference_flutter/modules/courses/widgets/saved-courses.widget.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/modules/courses/widgets/applied-courses.widget.dart';
+import 'package:my_buddy/modules/courses/widgets/course-list.widget.dart';
+import 'package:my_buddy/modules/courses/widgets/saved-courses.widget.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagementapi;
 import 'package:flutter/material.dart';
 

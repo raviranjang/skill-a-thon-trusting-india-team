@@ -1,9 +1,9 @@
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
 
 import 'package:flutter/material.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.models.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.models.swagger.dart'
     as jobseekerapi;
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.models.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/user_management_api.models.swagger.dart'
     as usermanagementapi;
 
 class CourseListItemWidget extends StatefulWidget {

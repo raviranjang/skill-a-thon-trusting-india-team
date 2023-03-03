@@ -1,4 +1,4 @@
-import 'package:dsep_reference_flutter/common/widgets/af-text-form-field-wrapper.widget.dart';
+import 'package:my_buddy/common/widgets/af-text-form-field-wrapper.widget.dart';
 
 import '../../services/helper.service.dart';
 

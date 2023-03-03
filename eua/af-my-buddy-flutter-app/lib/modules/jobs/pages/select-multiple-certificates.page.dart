@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
-import 'package:dsep_reference_flutter/animations/slide-bottom.animation.dart';
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/legend-wrapper.widget.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/modules/wallet/widgets/selectable-credential-item.widget.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/cloud_wallet_api.swagger.dart';
+import 'package:my_buddy/animations/slide-bottom.animation.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/common/widgets/legend-wrapper.widget.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/modules/wallet/widgets/selectable-credential-item.widget.dart';
+import 'package:my_buddy/swagger_models_apis/cloud_wallet_api.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';

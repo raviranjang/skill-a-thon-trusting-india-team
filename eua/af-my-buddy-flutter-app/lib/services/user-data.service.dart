@@ -1,7 +1,7 @@
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-course.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-job.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.models.swagger.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/local_models/serializable-models/serialized-course.dart';
+import 'package:my_buddy/local_models/serializable-models/serialized-job.dart';
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.models.swagger.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagement;
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.models.swagger.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.models.swagger.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.models.swagger.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.models.swagger.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagement;
 import 'package:json_annotation/json_annotation.dart';
 

@@ -215,7 +215,7 @@ export const buildInitRequest = (input: any = {}) => {
 
 export const buildInitResponse = (response: any = {}, body: any = {}) => {
   const input = response?.data?.responses?.[0];
-  if (!input) return { status: 200 };
+  if (!input) return { status: 200, data:{} };
 
   const {
     transaction_id: transactionId,

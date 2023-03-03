@@ -1,4 +1,4 @@
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.models.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/user_management_api.models.swagger.dart'
     as usermanagementmodels;
 import 'package:json_annotation/json_annotation.dart';
 part 'serialized-course.g.dart';

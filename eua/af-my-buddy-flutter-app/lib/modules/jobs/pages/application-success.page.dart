@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:dsep_reference_flutter/animations/slide-bottom.animation.dart';
-import 'package:dsep_reference_flutter/common/pages/dashboard.page.dart';
-import 'package:dsep_reference_flutter/common/widgets/lottie-animation.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
+import 'package:my_buddy/animations/slide-bottom.animation.dart';
+import 'package:my_buddy/common/pages/dashboard.page.dart';
+import 'package:my_buddy/common/widgets/lottie-animation.widget.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/global_constants.dart';
 
 import 'package:flutter/material.dart';
 

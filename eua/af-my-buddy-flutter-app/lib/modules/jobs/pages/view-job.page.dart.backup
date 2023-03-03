@@ -1,13 +1,13 @@
 // import 'dart:convert';
 
 // import 'package:chopper/chopper.dart';
-// import 'package:dsep_reference_flutter/common/widgets/filled-button-with-feedback-animation.widget.dart';
-// import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
-// import 'package:dsep_reference_flutter/common/widgets/loading-animation.widget.dart';
-// import 'package:dsep_reference_flutter/global_constants.dart';
-// import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.swagger.dart'
+// import 'package:my_buddy/common/widgets/filled-button-with-feedback-animation.widget.dart';
+// import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
+// import 'package:my_buddy/common/widgets/loading-animation.widget.dart';
+// import 'package:my_buddy/global_constants.dart';
+// import 'package:my_buddy/swagger_models_apis/job_seeker_api.swagger.dart'
 //     as jobseekermodels;
-// import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.models.swagger.dart'
+// import 'package:my_buddy/swagger_models_apis/user_management_api.models.swagger.dart'
 //     as usermanagementapi;
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';

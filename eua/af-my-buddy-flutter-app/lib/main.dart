@@ -1,9 +1,10 @@
-import 'package:dsep_reference_flutter/common/pages/dashboard.page.dart';
-import 'package:dsep_reference_flutter/home.page.dart';
-import 'package:dsep_reference_flutter/providers/authentication-state.provider.dart';
-import 'package:dsep_reference_flutter/providers/user-state.provider.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/client_index.dart';
-// import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.swagger.dart';
+import 'package:my_buddy/common/pages/dashboard.page.dart';
+import 'package:my_buddy/home.page.dart';
+import 'package:my_buddy/modules/jobs/services/jobs-data.service.dart';
+import 'package:my_buddy/providers/authentication-state.provider.dart';
+import 'package:my_buddy/providers/user-state.provider.dart';
+import 'package:my_buddy/swagger_models_apis/client_index.dart';
+// import 'package:my_buddy/swagger_models_apis/job_seeker_api.swagger.dart';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';

@@ -1,20 +1,22 @@
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
-import 'package:dsep_reference_flutter/animations/slide-bottom.animation.dart';
-import 'package:dsep_reference_flutter/animations/slide-right.animation.dart';
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/course-list-item.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/loading-animation.widget.dart';
+import 'package:my_buddy/animations/slide-bottom.animation.dart';
+import 'package:my_buddy/animations/slide-right.animation.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/common/widgets/course-list-item.widget.dart';
+import 'package:my_buddy/common/widgets/loading-animation.widget.dart';
 
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-course.dart';
-import 'package:dsep_reference_flutter/modules/courses/pages/search-courses.page.dart';
-import 'package:dsep_reference_flutter/modules/courses/pages/view-course.page.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.swagger.dart'
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/local_models/serializable-models/serialized-course.dart';
+import 'package:my_buddy/modules/courses/pages/search-courses.page.dart';
+import 'package:my_buddy/modules/courses/pages/view-course.page.dart';
+import 'package:my_buddy/modules/courses/services/courses-data.service.dart';
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.swagger.dart'
     as jobseekerapi;
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagementapi;
+import 'package:rxdart/rxdart.dart';
 import './courses-filter.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,69 +32,32 @@ class CourseListWidget extends StatefulWidget {
 class _CourseListWidgetState extends State<CourseListWidget> {
   bool _pageInitialized = false;
   // List<CourseSummary>? _courses;
-  List<SerializedCourse>? _courses = [];
-  bool _loadingCoursesInProgressFlag = false;
 
   @override
   void didChangeDependencies() {
     if (!_pageInitialized) {
-      _loadAllCourses();
+      jobseekerapi.SearchCourseRequest _searchCourseBody =
+          jobseekerapi.SearchCourseRequest(
+        searchTitle: "Python",
+      );
+
+      CoursesDataService()
+          .updateSearchCourseRequestInput(searchCourseInput: _searchCourseBody);
+
       _pageInitialized = true;
     }
     super.didChangeDependencies();
   }
 
-  _loadAllCourses() {
-    setState(() {
-      _loadingCoursesInProgressFlag = true;
-    });
-    jobseekerapi.SearchCourseRequest _searchCourseBody =
-        jobseekerapi.SearchCourseRequest(
-      searchTitle: 'Problem solving Aspects and Python Programming',
-    );
-    // SearchCourse? _searchCourseBody = SearchCourse.fromJson({});
-    Provider.of<jobseekerapi.JobSeekerApi>(
-      context,
-      listen: false,
-    )
-        .courseSearchPost(body: _searchCourseBody)
-        .then((Response<jobseekerapi.CourseResults> response) {
-      if (response.isSuccessful) {
-        debugPrint("courses result bodyString: ");
-        debugPrint(response.bodyString);
-        Map<String, dynamic> searchCourseResponseMap =
-            jsonDecode(response.bodyString);
-        jobseekerapi.Context jobseekerContext = response.body!.context;
-        setState(() {
-          _courses = [];
-          List<Map<String, dynamic>> courseResults = [];
+  bool _streamControllerFlag = true;
+  bool streamControllerCondition(dynamic i) {
+    return _streamControllerFlag;
+  }
 
-          searchCourseResponseMap["courses"].forEach((dynamic courseResult) {
-            courseResults.add(courseResult as Map<String, dynamic>);
-          });
-          courseResults.forEach((courseResultMap) {
-            jobseekerapi.Course jobseekerCourse = jobseekerapi.Course.fromJson(
-                courseResultMap as Map<String, dynamic>);
-            SerializedCourse newCourse = SerializedCourse(
-              courseId: jobseekerCourse.id,
-              providerId: jobseekerCourse.provider.id,
-              providerName: jobseekerCourse.provider.name,
-              title: jobseekerCourse.name,
-              duration: jobseekerCourse.duration,
-              bppId: jobseekerContext.bppId,
-              bppUri: jobseekerContext.bppUri,
-              categoryName: jobseekerCourse.category!.name ?? "",
-              imageUrl: (jobseekerCourse.imageLocations.length > 0)
-                  ? jobseekerCourse.imageLocations[0]
-                  : null,
-            );
-
-            _courses!.add(newCourse);
-          });
-          _loadingCoursesInProgressFlag = false;
-        });
-      }
-    });
+  @override
+  dispose() {
+    _streamControllerFlag = false;
+    super.dispose();
   }
 
   @override
@@ -144,8 +109,7 @@ class _CourseListWidgetState extends State<CourseListWidget> {
                         ),
                         Expanded(
                           child: DecoratedTextWidget(
-                            content:
-                                "Search by skills, location, experience, etc...",
+                            content: "Python",
                             textColor: Colors.black45,
                             maxLines: 1,
                             overflowEllipsisFlag: true,
@@ -167,73 +131,104 @@ class _CourseListWidgetState extends State<CourseListWidget> {
           ],
         ),
         Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              (!_loadingCoursesInProgressFlag)
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 6,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            ((_courses ?? []).length.toString() +
-                                " courses found"),
-                          ),
-                          GestureDetector(
-                            child:
-                                SvgPicture.asset('assets/svgs/ic_filter.svg'),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                SlideBottomRoute(
-                                  page: const SearchCoursesPage(),
+          child: StreamBuilder(
+            stream: CombineLatestStream.list([
+              CoursesDataService()
+                  .loadingInProgressFlag$
+                  .takeWhile(streamControllerCondition),
+              CoursesDataService()
+                  .allcourses$
+                  .takeWhile(streamControllerCondition),
+            ]).takeWhile(streamControllerCondition),
+            builder: (BuildContext context, AsyncSnapshot ss) {
+              if ((ss.data != null) && (ss.data != null)) {
+                bool? loadingInProgressFlag = ss.data[0] as bool?;
+                List<SerializedCourse>? courses =
+                    ss.data[1] as List<SerializedCourse>?;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    (!(loadingInProgressFlag ?? false))
+                        ? (((courses ?? []).length == 0)
+                            ? Container(
+                                margin: const EdgeInsets.only(
+                                  top: 100,
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(),
-              Expanded(
-                child: _loadingCoursesInProgressFlag
-                    ? LoadingAnimationWidget()
-                    : SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: (_courses ?? []).map((course) {
-                            return GestureDetector(
-                                child: Container(
-                                  height: 150,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'assets/svgs/no_results.svg',
+                                  height: 180,
+                                  // color: Colors.black,
+                                ))
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 6,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      ((courses ?? []).length.toString() +
+                                          " courses found"),
                                     ),
-                                  ),
-                                  margin: const EdgeInsets.all(8.0),
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CourseListItemWidget(
-                                    course: course,
-                                  ),
+                                    GestureDetector(
+                                      child: SvgPicture.asset(
+                                          'assets/svgs/ic_filter.svg'),
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          SlideBottomRoute(
+                                            page: const SearchCoursesPage(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                onTap: () {
-                                  Navigator.of(context).push(SlideRightRoute(
-                                      page: ViewCoursePage(
-                                    course: course,
-                                  )));
-                                });
-                          }).toList(),
-                        ),
-                      ),
-              ),
-            ],
+                              ))
+                        : Container(),
+                    Expanded(
+                      child: (loadingInProgressFlag ?? false)
+                          ? LoadingAnimationWidget()
+                          : SingleChildScrollView(
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: (courses ?? []).map((course) {
+                                return GestureDetector(
+                                    child: Container(
+                                      height: 150,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                      ),
+                                      margin: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CourseListItemWidget(
+                                        course: course,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(SlideRightRoute(
+                                              page: ViewCoursePage(
+                                        course: course,
+                                      )));
+                                    });
+                              }).toList(),
+                            )),
+                    ),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
         )
       ],

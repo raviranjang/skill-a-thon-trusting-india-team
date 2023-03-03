@@ -1,8 +1,8 @@
-import 'package:dsep_reference_flutter/animations/slide-right.animation.dart';
-import 'package:dsep_reference_flutter/common/widgets/course-list-item.widget.dart';
+import 'package:my_buddy/animations/slide-right.animation.dart';
+import 'package:my_buddy/common/widgets/course-list-item.widget.dart';
 
-import 'package:dsep_reference_flutter/modules/courses/pages/view-course.page.dart';
-import 'package:dsep_reference_flutter/services/user-data.service.dart';
+import 'package:my_buddy/modules/courses/pages/view-course.page.dart';
+import 'package:my_buddy/services/user-data.service.dart';
 import 'package:flutter/material.dart';
 
 class SavedCoursesWidget extends StatefulWidget {

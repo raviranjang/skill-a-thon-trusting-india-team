@@ -2,22 +2,24 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:chopper/chopper.dart';
-import 'package:dsep_reference_flutter/animations/slide-bottom.animation.dart';
-import 'package:dsep_reference_flutter/animations/slide-right.animation.dart';
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/job-list-tem.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/loading-animation.widget.dart';
+import 'package:my_buddy/animations/slide-bottom.animation.dart';
+import 'package:my_buddy/animations/slide-right.animation.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/common/widgets/job-list-tem.widget.dart';
+import 'package:my_buddy/common/widgets/loading-animation.widget.dart';
 
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-job.dart';
-import 'package:dsep_reference_flutter/modules/jobs/pages/view-job.page.dart';
-import 'package:dsep_reference_flutter/modules/jobs/widgets/job-filters.widget.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.swagger.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/local_models/serializable-models/serialized-job.dart';
+import 'package:my_buddy/modules/jobs/pages/view-job.page.dart';
+import 'package:my_buddy/modules/jobs/services/jobs-data.service.dart';
+import 'package:my_buddy/modules/jobs/widgets/job-filters.widget.dart';
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.models.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.models.swagger.dart'
     as jobseekermodels;
 import 'package:flutter_svg/svg.dart';
+import 'package:rxdart/rxdart.dart';
 
 class JobListWidget extends StatefulWidget {
   const JobListWidget({super.key});
@@ -29,82 +31,41 @@ class JobListWidget extends StatefulWidget {
 class _JobListWidgetState extends State<JobListWidget> {
   bool _pageInitialized = false;
   // List<JobSummary>? _jobs;
-  List<SerializedJob>? _jobs = [];
-  bool _loadingJobsInProgressFlag = false;
 
   @override
   void didChangeDependencies() {
     if (!_pageInitialized) {
+      // CompanyLocation location = CompanyLocation(city: "Bangalore");
+      // List<CompanyLocation> companylocations = [];
+      // companylocations.add(location);
+
+      // SearchJob$Company company =
+      //     SearchJob$Company(name: "Affinidi", locations: companylocations);
+      // NameCode skill = NameCode(name: "Flutter");
+      // List<NameCode> skills = [];
+      // skills.add(skill);
+
+      SearchJob? _searchJobBody = SearchJob(
+        title: SearchJob$Title(key: "Manager"),
+        // company: company,
+        // skills: skills,
+      );
+
+      JobsDataService().updateSearchJobInput(searchJobInput: _searchJobBody);
       _pageInitialized = true;
-      _loadAllJobs();
     }
     super.didChangeDependencies();
   }
 
-  _loadAllJobs() {
-    setState(() {
-      _loadingJobsInProgressFlag = true;
-    });
-    SearchJob? _searchJobBody = SearchJob(
-      title: SearchJob$Title(key: "DevOps"),
-    );
+  bool _streamControllerFlag = true;
+  bool streamControllerCondition(dynamic i) {
+    return _streamControllerFlag;
+  }
 
-    // SearchJob? _searchJobBody = SearchJob.fromJson({});
-    Provider.of<JobSeekerApi>(
-      context,
-      listen: false,
-    )
-        .jobSearchPost(body: _searchJobBody)
-        .then((Response<SearchJobsResponse> response) {
-      if (response.isSuccessful) {
-        Map<String, dynamic> searchJobResponseMap =
-            jsonDecode(response.bodyString);
-        setState(() {
-          _jobs = [];
-          List<Map<String, dynamic>> jobResults = [];
-
-          searchJobResponseMap["jobResults"].forEach((dynamic jobResult) {
-            jobResults.add(jobResult as Map<String, dynamic>);
-          });
-          jobResults.forEach((jobResultMap) {
-            Map<String, dynamic> companyMap =
-                jobResultMap["company"] as Map<String, dynamic>;
-            Company company = Company.fromJson(companyMap);
-            String? logoUrl;
-            if (companyMap["imageLink"] != null) {
-              companyMap["imageLink"].forEach((dynamic imageLinkDynamic) {
-                jobseekermodels.Image image =
-                    jobseekermodels.Image.fromJson(imageLinkDynamic);
-                logoUrl = image.url;
-              });
-            }
-            jobResultMap["jobs"].forEach((dynamic jobSummaryDynamic) {
-              Map<String, dynamic> jobSummaryMap =
-                  jobSummaryDynamic as Map<String, dynamic>;
-              List<Location> locations = [];
-              jobSummaryMap["locations"].forEach((locationDynamic) {
-                locations.add(
-                    Location.fromJson(locationDynamic as Map<String, dynamic>));
-              });
-              JobSummary jobsummary = JobSummary.fromJson(jobSummaryMap);
-              SerializedJob newJob = SerializedJob(
-                jobId: jobsummary.jobId,
-                role: jobsummary.role,
-                company: company.name ?? "",
-                bppId: response.body!.context.bppId,
-                bppUri: response.body!.context.bppUri,
-                description: jobsummary.description,
-                city: (locations.length > 0) ? locations[0].city : null,
-                state: (locations.length > 0) ? locations[0].state : null,
-                companyLogo: logoUrl,
-              );
-              _jobs!.add(newJob);
-            });
-          });
-          _loadingJobsInProgressFlag = false;
-        });
-      }
-    });
+  @override
+  dispose() {
+    _streamControllerFlag = false;
+    super.dispose();
   }
 
   @override
@@ -156,8 +117,7 @@ class _JobListWidgetState extends State<JobListWidget> {
                         ),
                         Expanded(
                           child: DecoratedTextWidget(
-                            content:
-                                "Search by skills, location, experience, etc...",
+                            content: "Manager",
                             textColor: Colors.black45,
                             maxLines: 1,
                             overflowEllipsisFlag: true,
@@ -179,76 +139,106 @@ class _JobListWidgetState extends State<JobListWidget> {
           ],
         ),
         Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              (!_loadingJobsInProgressFlag)
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 6,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            ((_jobs ?? []).length.toString() + " jobs found"),
-                          ),
-                          GestureDetector(
-                            child:
-                                SvgPicture.asset('assets/svgs/ic_filter.svg'),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                SlideBottomRoute(
-                                  page: const JobFiltersWidget(),
+          child: StreamBuilder(
+            stream: CombineLatestStream.list([
+              JobsDataService()
+                  .loadingInProgressFlag$
+                  .takeWhile(streamControllerCondition),
+              JobsDataService().alljobs$.takeWhile(streamControllerCondition),
+            ]).takeWhile(streamControllerCondition),
+            builder: (BuildContext context, AsyncSnapshot ss) {
+              if ((ss.data != null) && (ss.data != null)) {
+                bool? loadingInProgressFlag = ss.data[0] as bool?;
+                List<SerializedJob>? jobs = ss.data[1] as List<SerializedJob>?;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    (!(loadingInProgressFlag ?? false))
+                        ? (((jobs ?? []).length == 0)
+                            ? Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.only(
+                                  top: 100,
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(),
-              Expanded(
-                child: _loadingJobsInProgressFlag
-                    ? LoadingAnimationWidget()
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: (_jobs ?? []).map((job) {
-                            return GestureDetector(
-                                child: Container(
-                                  height: 150,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
+                                child: SvgPicture.asset(
+                                  'assets/svgs/no_results.svg',
+                                  height: 180,
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 6,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      ((jobs ?? []).length.toString() +
+                                          " jobs found"),
                                     ),
-                                  ),
-                                  margin: const EdgeInsets.all(8.0),
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: JobListItemWidget(
-                                    job: job,
-                                  ),
+                                    GestureDetector(
+                                      child: SvgPicture.asset(
+                                          'assets/svgs/ic_filter.svg'),
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          SlideBottomRoute(
+                                            page: const JobFiltersWidget(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                onTap: () {
-                                  Navigator.of(context).push(SlideRightRoute(
-                                      page: ViewJobPage(
-                                    job: job,
-                                  )));
-                                });
-                            ;
-                          }).toList(),
-                        ),
-                      ),
-              ),
-            ],
+                              ))
+                        : Container(),
+                    Expanded(
+                      child: (loadingInProgressFlag ?? false)
+                          ? LoadingAnimationWidget()
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: (jobs ?? []).map((job) {
+                                  return GestureDetector(
+                                      child: Container(
+                                        height: 150,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                        ),
+                                        margin: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: JobListItemWidget(
+                                          job: job,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(SlideRightRoute(
+                                                page: ViewJobPage(
+                                          job: job,
+                                        )));
+                                      });
+                                  ;
+                                }).toList(),
+                              ),
+                            ),
+                    ),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
-        )
+        ),
       ],
     );
   }

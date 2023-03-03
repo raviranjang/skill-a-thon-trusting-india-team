@@ -1,5 +1,5 @@
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/common/widgets/af-text-form-field-wrapper.widget.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/common/widgets/af-text-form-field-wrapper.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -43,7 +43,7 @@ class _SearchCoursesPageState extends State<SearchCoursesPage> {
           IconButton(
             icon: const Icon(
               Icons.clear_outlined,
-              color: Colors.black87,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.of(context).pop();

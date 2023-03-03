@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dsep_reference_flutter/swagger_models_apis/cloud_wallet_api.swagger.dart';
-import 'package:dsep_reference_flutter/common/widgets/legend-wrapper.widget.dart';
+import 'package:my_buddy/swagger_models_apis/cloud_wallet_api.swagger.dart';
+import 'package:my_buddy/common/widgets/legend-wrapper.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

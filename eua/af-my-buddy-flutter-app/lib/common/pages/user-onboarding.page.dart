@@ -1,17 +1,17 @@
 import 'package:chopper/chopper.dart';
-import 'package:dsep_reference_flutter/animations/slide-right.animation.dart';
-import 'package:dsep_reference_flutter/common/custom-validators.dart';
-import 'package:dsep_reference_flutter/common/pages/dashboard.page.dart';
-import 'package:dsep_reference_flutter/common/widgets/af-text-form-field-wrapper.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/filled-button-with-feedback-animation.widget.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/providers/authentication-state.provider.dart';
-import 'package:dsep_reference_flutter/providers/user-state.provider.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/cloud_wallet_api.swagger.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.models.swagger.dart';
+import 'package:my_buddy/animations/slide-right.animation.dart';
+import 'package:my_buddy/common/custom-validators.dart';
+import 'package:my_buddy/common/pages/dashboard.page.dart';
+import 'package:my_buddy/common/widgets/af-text-form-field-wrapper.widget.dart';
+import 'package:my_buddy/common/widgets/filled-button-with-feedback-animation.widget.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/providers/authentication-state.provider.dart';
+import 'package:my_buddy/providers/user-state.provider.dart';
+import 'package:my_buddy/swagger_models_apis/cloud_wallet_api.swagger.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.models.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagement;
 
 class UserOnboardingPage extends StatefulWidget {

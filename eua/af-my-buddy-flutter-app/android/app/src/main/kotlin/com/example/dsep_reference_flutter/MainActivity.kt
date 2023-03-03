@@ -1,4 +1,4 @@
-package com.example.dsep_reference_flutter
+package com.example.my_buddy
 
 import io.flutter.embedding.android.FlutterActivity
 

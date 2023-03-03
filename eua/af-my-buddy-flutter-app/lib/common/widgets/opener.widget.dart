@@ -1,13 +1,13 @@
-import 'package:dsep_reference_flutter/common/widgets/course-list-item.widget.dart';
-import 'package:dsep_reference_flutter/animations/slide-bottom.animation.dart';
-import 'package:dsep_reference_flutter/common/widgets/job-list-tem.widget.dart';
-import 'package:dsep_reference_flutter/common/widgets/location-auto-complete.widget.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-job.dart';
-import 'package:dsep_reference_flutter/providers/user-state.provider.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.models.swagger.dart'
+import 'package:my_buddy/common/widgets/course-list-item.widget.dart';
+import 'package:my_buddy/animations/slide-bottom.animation.dart';
+import 'package:my_buddy/common/widgets/job-list-tem.widget.dart';
+import 'package:my_buddy/common/widgets/location-auto-complete.widget.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/local_models/serializable-models/serialized-job.dart';
+import 'package:my_buddy/providers/user-state.provider.dart';
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.models.swagger.dart'
     as jobseekerapi;
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.models.swagger.dart'
+import 'package:my_buddy/swagger_models_apis/user_management_api.models.swagger.dart'
     as usermanagementapi;
 
 import 'package:flutter/material.dart';

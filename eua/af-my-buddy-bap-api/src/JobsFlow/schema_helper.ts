@@ -74,9 +74,16 @@ export const buildOnSearchMergedResponse = async (response: any = {}, body: any 
 }
 
 export const buildOnSearchResponse = (response: any = {}, body: any = {}, savedItems = [], appliedItems = []) => {
-    const input = response?.data?.responses?.[0];
+    let input: any; 
+    for (let responsedata of response?.data?.responses??[]){
+        if (responsedata?.context?.bpp_id === "affinidi.com.bpp"){
+            input = responsedata;
+        }
+    }
+
+    // const input = response?.data?.responses?.[0];
     if (!input)
-        return { status: 200 };
+        return { status: 200 , data:{}};
     const { transaction_id: transactionId, message_id: messageId, bpp_id: bppId, bpp_uri: bppUri }: any = input?.context ?? {};
     const context = { transactionId, messageId, bppId, bppUri };
 

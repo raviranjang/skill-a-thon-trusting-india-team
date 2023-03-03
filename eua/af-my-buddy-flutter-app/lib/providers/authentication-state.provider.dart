@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dsep_reference_flutter/swagger_models_apis/cloud_wallet_api.swagger.dart';
+import 'package:my_buddy/swagger_models_apis/cloud_wallet_api.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

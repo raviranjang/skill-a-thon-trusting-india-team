@@ -1,12 +1,14 @@
 import 'package:chopper/chopper.dart';
-import 'package:dsep_reference_flutter/common/widgets/opener.widget.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/modules/courses/widgets/courses-dashboard.widget.dart';
-import 'package:dsep_reference_flutter/modules/jobs/widgets/jobs-dashboard.widget.dart';
-import 'package:dsep_reference_flutter/modules/profile/pages/profile-dashboard.page.dart';
-import 'package:dsep_reference_flutter/providers/authentication-state.provider.dart';
-import 'package:dsep_reference_flutter/providers/user-state.provider.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/common/widgets/opener.widget.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/modules/courses/services/courses-data.service.dart';
+import 'package:my_buddy/modules/courses/widgets/courses-dashboard.widget.dart';
+import 'package:my_buddy/modules/jobs/services/jobs-data.service.dart';
+import 'package:my_buddy/modules/jobs/widgets/jobs-dashboard.widget.dart';
+import 'package:my_buddy/modules/profile/pages/profile-dashboard.page.dart';
+import 'package:my_buddy/providers/authentication-state.provider.dart';
+import 'package:my_buddy/providers/user-state.provider.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagement;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +30,13 @@ class _DashboardPageState extends State<DashboardPage>
   @override
   void didChangeDependencies() {
     if (!_pageInitiaized) {
+      JobsDataService().initialize(
+        context: context,
+      );
+      CoursesDataService().initialize(
+        context: context,
+      );
+
       if (context.read<UserState>().userProfile == null) {
         Provider.of<usermanagement.UserManagementApi>(
           context,

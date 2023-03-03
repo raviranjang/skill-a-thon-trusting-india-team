@@ -1,4 +1,4 @@
-import 'package:dsep_reference_flutter/global_constants.dart';
+import 'package:my_buddy/global_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

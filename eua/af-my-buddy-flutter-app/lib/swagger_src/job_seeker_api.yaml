@@ -2253,6 +2253,27 @@ paths:
                 path: "/course/status"
 components:
   schemas:
+    NameCode:
+      description: Name Value object
+      type: object
+      optional:
+        - name
+        - code
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+          
+    CompanyLocation:
+      description: Company Location Object
+      type: object
+      optional:
+        - city
+      properties:
+        city:
+          type: string
+
     SearchJob:
       description: Schema for Job search object
       type: object
@@ -2270,23 +2291,18 @@ components:
             locations:
               type: array
               items:
-                type: object
-                properties: 
-                  city:
-                    type: string
+                oneOf:
+                - $ref: '#/components/schemas/CompanyLocation'
         skills:
           type: array
           items:
-            type: object
-            properties: 
-              name:
-                type: string
-              code:
-                type: string
+            oneOf:
+            - $ref: '#/components/schemas/NameCode'
+
     SearchJobsResponse:
       description: Schema for searched job results/response
       type: object
-      required:
+      optional:
         - context
         - jobs
       properties:
@@ -2303,7 +2319,7 @@ components:
     JobResult:
       description: Schema for Job result
       type: object
-      required:
+      optional:
         - company
         - jobs
       properties:
@@ -2409,13 +2425,14 @@ components:
       description: Name Value object
       type: object
       optional:
-        - type
+        - name
         - value
       properties:
         name:
           type: string
         value:
           type: string
+
 
     SelectJob:
       description: Schema for Job selection
@@ -4153,7 +4170,7 @@ components:
     CourseResults:
       description: Schema for searched course results
       type: object
-      required:
+      optional:
         - context
         - CourseProvider
       properties:

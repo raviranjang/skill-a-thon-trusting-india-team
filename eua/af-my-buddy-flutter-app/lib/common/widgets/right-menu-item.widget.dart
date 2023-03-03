@@ -1,4 +1,4 @@
-import 'package:dsep_reference_flutter/animations/collapse.animation.dart';
+import 'package:my_buddy/animations/collapse.animation.dart';
 
 import './decorated-text.widget.dart';
 import 'package:flutter/material.dart';

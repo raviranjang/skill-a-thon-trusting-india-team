@@ -1,6 +1,6 @@
-import 'package:dsep_reference_flutter/common/assets.dart';
-import 'package:dsep_reference_flutter/common/extensions.dart';
-import 'package:dsep_reference_flutter/providers/user-state.provider.dart';
+import 'package:my_buddy/common/assets.dart';
+import 'package:my_buddy/common/extensions.dart';
+import 'package:my_buddy/providers/user-state.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

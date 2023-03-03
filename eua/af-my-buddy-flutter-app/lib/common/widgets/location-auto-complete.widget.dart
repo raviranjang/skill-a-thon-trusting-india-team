@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dsep_reference_flutter/global_constants.dart';
+import 'package:my_buddy/global_constants.dart';
 
 import '../widgets/decorated-text.widget.dart';
 import 'package:flutter/material.dart';

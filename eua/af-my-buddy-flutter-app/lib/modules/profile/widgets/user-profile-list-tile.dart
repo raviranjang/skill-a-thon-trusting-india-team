@@ -1,5 +1,5 @@
-import 'package:dsep_reference_flutter/common/extensions.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
+import 'package:my_buddy/common/extensions.dart';
+import 'package:my_buddy/global_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

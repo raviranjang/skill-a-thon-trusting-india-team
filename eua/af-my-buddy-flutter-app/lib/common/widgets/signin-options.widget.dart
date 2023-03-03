@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:dsep_reference_flutter/common/widgets/filled-button-with-feedback-animation.widget.dart';
-import 'package:dsep_reference_flutter/services/auth.service.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/cloud_wallet_api.swagger.dart';
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/common/widgets/filled-button-with-feedback-animation.widget.dart';
+import 'package:my_buddy/services/auth.service.dart';
+import 'package:my_buddy/swagger_models_apis/cloud_wallet_api.swagger.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

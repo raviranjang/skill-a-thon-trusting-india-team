@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dsep_reference_flutter/providers/authentication-state.provider.dart';
+import 'package:my_buddy/providers/authentication-state.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';

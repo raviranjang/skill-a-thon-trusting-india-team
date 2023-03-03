@@ -1,8 +1,8 @@
-import 'package:dsep_reference_flutter/common/widgets/decorated-text.widget.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-job.dart';
+import 'package:my_buddy/common/widgets/decorated-text.widget.dart';
+import 'package:my_buddy/local_models/serializable-models/serialized-job.dart';
 
 import 'package:flutter/material.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/job_seeker_api.models.swagger.dart';
+import 'package:my_buddy/swagger_models_apis/job_seeker_api.models.swagger.dart';
 
 class JobListItemWidget extends StatefulWidget {
   final SerializedJob? job;

@@ -9,6 +9,97 @@ import 'job_seeker_api.enums.swagger.dart' as enums;
 part 'job_seeker_api.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class NameCode {
+  NameCode({
+    this.name,
+    this.code,
+  });
+
+  factory NameCode.fromJson(Map<String, dynamic> json) =>
+      _$NameCodeFromJson(json);
+
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String? name;
+  @JsonKey(name: 'code', includeIfNull: false)
+  final String? code;
+  static const fromJsonFactory = _$NameCodeFromJson;
+  static const toJsonFactory = _$NameCodeToJson;
+  Map<String, dynamic> toJson() => _$NameCodeToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NameCode &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.code, code) ||
+                const DeepCollectionEquality().equals(other.code, code)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(code) ^
+      runtimeType.hashCode;
+}
+
+extension $NameCodeExtension on NameCode {
+  NameCode copyWith({String? name, String? code}) {
+    return NameCode(name: name ?? this.name, code: code ?? this.code);
+  }
+
+  NameCode copyWithWrapped({Wrapped<String?>? name, Wrapped<String?>? code}) {
+    return NameCode(
+        name: (name != null ? name.value : this.name),
+        code: (code != null ? code.value : this.code));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CompanyLocation {
+  CompanyLocation({
+    this.city,
+  });
+
+  factory CompanyLocation.fromJson(Map<String, dynamic> json) =>
+      _$CompanyLocationFromJson(json);
+
+  @JsonKey(name: 'city', includeIfNull: false)
+  final String? city;
+  static const fromJsonFactory = _$CompanyLocationFromJson;
+  static const toJsonFactory = _$CompanyLocationToJson;
+  Map<String, dynamic> toJson() => _$CompanyLocationToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CompanyLocation &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(city) ^ runtimeType.hashCode;
+}
+
+extension $CompanyLocationExtension on CompanyLocation {
+  CompanyLocation copyWith({String? city}) {
+    return CompanyLocation(city: city ?? this.city);
+  }
+
+  CompanyLocation copyWithWrapped({Wrapped<String?>? city}) {
+    return CompanyLocation(city: (city != null ? city.value : this.city));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class SearchJob {
   SearchJob({
     this.title,
@@ -23,9 +114,8 @@ class SearchJob {
   final SearchJob$Title? title;
   @JsonKey(name: 'company', includeIfNull: false)
   final SearchJob$Company? company;
-  @JsonKey(
-      name: 'skills', includeIfNull: false, defaultValue: <SearchJob$Skills>[])
-  final List<SearchJob$Skills>? skills;
+  @JsonKey(name: 'skills', includeIfNull: false, defaultValue: <Object>[])
+  final List<Object>? skills;
   static const fromJsonFactory = _$SearchJobFromJson;
   static const toJsonFactory = _$SearchJobToJson;
   Map<String, dynamic> toJson() => _$SearchJobToJson(this);
@@ -58,7 +148,7 @@ extension $SearchJobExtension on SearchJob {
   SearchJob copyWith(
       {SearchJob$Title? title,
       SearchJob$Company? company,
-      List<SearchJob$Skills>? skills}) {
+      List<Object>? skills}) {
     return SearchJob(
         title: title ?? this.title,
         company: company ?? this.company,
@@ -68,7 +158,7 @@ extension $SearchJobExtension on SearchJob {
   SearchJob copyWithWrapped(
       {Wrapped<SearchJob$Title?>? title,
       Wrapped<SearchJob$Company?>? company,
-      Wrapped<List<SearchJob$Skills>?>? skills}) {
+      Wrapped<List<Object>?>? skills}) {
     return SearchJob(
         title: (title != null ? title.value : this.title),
         company: (company != null ? company.value : this.company),
@@ -79,7 +169,7 @@ extension $SearchJobExtension on SearchJob {
 @JsonSerializable(explicitToJson: true)
 class SearchJobsResponse {
   SearchJobsResponse({
-    required this.context,
+    this.context,
     this.jobProviderPlatform,
     this.jobResults,
   });
@@ -88,7 +178,7 @@ class SearchJobsResponse {
       _$SearchJobsResponseFromJson(json);
 
   @JsonKey(name: 'context', includeIfNull: false)
-  final Context context;
+  final Context? context;
   @JsonKey(name: 'jobProviderPlatform', includeIfNull: false)
   final String? jobProviderPlatform;
   @JsonKey(name: 'jobResults', includeIfNull: false, defaultValue: <Object>[])
@@ -135,7 +225,7 @@ extension $SearchJobsResponseExtension on SearchJobsResponse {
   }
 
   SearchJobsResponse copyWithWrapped(
-      {Wrapped<Context>? context,
+      {Wrapped<Context?>? context,
       Wrapped<String?>? jobProviderPlatform,
       Wrapped<List<Object>?>? jobResults}) {
     return SearchJobsResponse(
@@ -150,17 +240,17 @@ extension $SearchJobsResponseExtension on SearchJobsResponse {
 @JsonSerializable(explicitToJson: true)
 class JobResult {
   JobResult({
-    required this.company,
-    required this.jobs,
+    this.company,
+    this.jobs,
   });
 
   factory JobResult.fromJson(Map<String, dynamic> json) =>
       _$JobResultFromJson(json);
 
   @JsonKey(name: 'company', includeIfNull: false)
-  final Company company;
+  final Company? company;
   @JsonKey(name: 'jobs', includeIfNull: false, defaultValue: <Object>[])
-  final List<Object> jobs;
+  final List<Object>? jobs;
   static const fromJsonFactory = _$JobResultFromJson;
   static const toJsonFactory = _$JobResultToJson;
   Map<String, dynamic> toJson() => _$JobResultToJson(this);
@@ -192,7 +282,7 @@ extension $JobResultExtension on JobResult {
   }
 
   JobResult copyWithWrapped(
-      {Wrapped<Company>? company, Wrapped<List<Object>>? jobs}) {
+      {Wrapped<Company?>? company, Wrapped<List<Object>?>? jobs}) {
     return JobResult(
         company: (company != null ? company.value : this.company),
         jobs: (jobs != null ? jobs.value : this.jobs));
@@ -7205,7 +7295,7 @@ extension $CourseDeepSearchExtension on CourseDeepSearch {
 @JsonSerializable(explicitToJson: true)
 class CourseResults {
   CourseResults({
-    required this.context,
+    this.context,
     this.courses,
   });
 
@@ -7213,7 +7303,7 @@ class CourseResults {
       _$CourseResultsFromJson(json);
 
   @JsonKey(name: 'context', includeIfNull: false)
-  final Context context;
+  final Context? context;
   @JsonKey(name: 'courses', includeIfNull: false, defaultValue: <Object>[])
   final List<Object>? courses;
   static const fromJsonFactory = _$CourseResultsFromJson;
@@ -7248,7 +7338,7 @@ extension $CourseResultsExtension on CourseResults {
   }
 
   CourseResults copyWithWrapped(
-      {Wrapped<Context>? context, Wrapped<List<Object>?>? courses}) {
+      {Wrapped<Context?>? context, Wrapped<List<Object>?>? courses}) {
     return CourseResults(
         context: (context != null ? context.value : this.context),
         courses: (courses != null ? courses.value : this.courses));
@@ -8879,11 +8969,8 @@ class SearchJob$Company {
 
   @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(
-      name: 'locations',
-      includeIfNull: false,
-      defaultValue: <SearchJob$Company$Locations>[])
-  final List<SearchJob$Company$Locations>? locations;
+  @JsonKey(name: 'locations', includeIfNull: false, defaultValue: <Object>[])
+  final List<Object>? locations;
   static const fromJsonFactory = _$SearchJob$CompanyFromJson;
   static const toJsonFactory = _$SearchJob$CompanyToJson;
   Map<String, dynamic> toJson() => _$SearchJob$CompanyToJson(this);
@@ -8910,72 +8997,16 @@ class SearchJob$Company {
 }
 
 extension $SearchJob$CompanyExtension on SearchJob$Company {
-  SearchJob$Company copyWith(
-      {String? name, List<SearchJob$Company$Locations>? locations}) {
+  SearchJob$Company copyWith({String? name, List<Object>? locations}) {
     return SearchJob$Company(
         name: name ?? this.name, locations: locations ?? this.locations);
   }
 
   SearchJob$Company copyWithWrapped(
-      {Wrapped<String?>? name,
-      Wrapped<List<SearchJob$Company$Locations>?>? locations}) {
+      {Wrapped<String?>? name, Wrapped<List<Object>?>? locations}) {
     return SearchJob$Company(
         name: (name != null ? name.value : this.name),
         locations: (locations != null ? locations.value : this.locations));
-  }
-}
-
-typedef SearchJob$Skills = List<SearchJob$Skills$Item>;
-
-@JsonSerializable(explicitToJson: true)
-class SearchJob$Skills$Item {
-  SearchJob$Skills$Item({
-    this.name,
-    this.code,
-  });
-
-  factory SearchJob$Skills$Item.fromJson(Map<String, dynamic> json) =>
-      _$SearchJob$Skills$ItemFromJson(json);
-
-  @JsonKey(name: 'name', includeIfNull: false)
-  final String? name;
-  @JsonKey(name: 'code', includeIfNull: false)
-  final String? code;
-  static const fromJsonFactory = _$SearchJob$Skills$ItemFromJson;
-  static const toJsonFactory = _$SearchJob$Skills$ItemToJson;
-  Map<String, dynamic> toJson() => _$SearchJob$Skills$ItemToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is SearchJob$Skills$Item &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.code, code) ||
-                const DeepCollectionEquality().equals(other.code, code)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(code) ^
-      runtimeType.hashCode;
-}
-
-extension $SearchJob$Skills$ItemExtension on SearchJob$Skills$Item {
-  SearchJob$Skills$Item copyWith({String? name, String? code}) {
-    return SearchJob$Skills$Item(
-        name: name ?? this.name, code: code ?? this.code);
-  }
-
-  SearchJob$Skills$Item copyWithWrapped(
-      {Wrapped<String?>? name, Wrapped<String?>? code}) {
-    return SearchJob$Skills$Item(
-        name: (name != null ? name.value : this.name),
-        code: (code != null ? code.value : this.code));
   }
 }
 
@@ -10427,53 +10458,6 @@ extension $Acknowledgement$MessageExtension on Acknowledgement$Message {
   Acknowledgement$Message copyWithWrapped(
       {Wrapped<Acknowledgement$Message$Ack?>? ack}) {
     return Acknowledgement$Message(ack: (ack != null ? ack.value : this.ack));
-  }
-}
-
-typedef SearchJob$Company$Locations = List<SearchJob$Company$Locations$Item>;
-
-@JsonSerializable(explicitToJson: true)
-class SearchJob$Company$Locations$Item {
-  SearchJob$Company$Locations$Item({
-    this.city,
-  });
-
-  factory SearchJob$Company$Locations$Item.fromJson(
-          Map<String, dynamic> json) =>
-      _$SearchJob$Company$Locations$ItemFromJson(json);
-
-  @JsonKey(name: 'city', includeIfNull: false)
-  final String? city;
-  static const fromJsonFactory = _$SearchJob$Company$Locations$ItemFromJson;
-  static const toJsonFactory = _$SearchJob$Company$Locations$ItemToJson;
-  Map<String, dynamic> toJson() =>
-      _$SearchJob$Company$Locations$ItemToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is SearchJob$Company$Locations$Item &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(city) ^ runtimeType.hashCode;
-}
-
-extension $SearchJob$Company$Locations$ItemExtension
-    on SearchJob$Company$Locations$Item {
-  SearchJob$Company$Locations$Item copyWith({String? city}) {
-    return SearchJob$Company$Locations$Item(city: city ?? this.city);
-  }
-
-  SearchJob$Company$Locations$Item copyWithWrapped({Wrapped<String?>? city}) {
-    return SearchJob$Company$Locations$Item(
-        city: (city != null ? city.value : this.city));
   }
 }
 

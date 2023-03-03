@@ -1,9 +1,9 @@
-import 'package:dsep_reference_flutter/common/app_strings.dart';
-import 'package:dsep_reference_flutter/common/assets.dart';
-import 'package:dsep_reference_flutter/common/extensions.dart';
-import 'package:dsep_reference_flutter/global_constants.dart';
-import 'package:dsep_reference_flutter/modules/profile/widgets/user-profile-list-tile.dart';
-import 'package:dsep_reference_flutter/common/widgets/custom-app-bar.widget.dart';
+import 'package:my_buddy/common/app_strings.dart';
+import 'package:my_buddy/common/assets.dart';
+import 'package:my_buddy/common/extensions.dart';
+import 'package:my_buddy/global_constants.dart';
+import 'package:my_buddy/modules/profile/widgets/user-profile-list-tile.dart';
+import 'package:my_buddy/common/widgets/custom-app-bar.widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {

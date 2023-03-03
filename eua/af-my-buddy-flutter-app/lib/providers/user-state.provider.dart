@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-course.dart';
-import 'package:dsep_reference_flutter/local_models/serializable-models/serialized-job.dart';
-import 'package:dsep_reference_flutter/providers/authentication-state.provider.dart';
-import 'package:dsep_reference_flutter/services/user-data.service.dart';
-import 'package:dsep_reference_flutter/swagger_models_apis/user_management_api.swagger.dart'
+import 'package:my_buddy/local_models/serializable-models/serialized-course.dart';
+import 'package:my_buddy/local_models/serializable-models/serialized-job.dart';
+import 'package:my_buddy/providers/authentication-state.provider.dart';
+import 'package:my_buddy/services/user-data.service.dart';
+import 'package:my_buddy/swagger_models_apis/user_management_api.swagger.dart'
     as usermanagement;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
